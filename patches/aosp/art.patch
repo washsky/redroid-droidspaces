@@ -1,0 +1,12 @@
+diff --git a/runtime/gc/heap.cc b/runtime/gc/heap.cc
+index 8407ba4..bb7e718 100644
+--- a/runtime/gc/heap.cc
++++ b/runtime/gc/heap.cc
+@@ -4667,7 +4667,6 @@ void Heap::PostForkChildAction(Thread* self) {
+   } else {
+     // The syscall should fail only if it doesn't exist in the kernel or if it's
+     // denied by SELinux.
+-    CHECK(errno == ENOSYS || errno == EACCES) << "userfaultfd: " << strerror(errno);
+   }
+ #endif
+ 

@@ -1,0 +1,15 @@
+#!/system/bin/sh
+set -eu
+node=/dev/dma_heap/qcom,system
+if [ -c "$node" ]; then exit 0; fi
+for file in /sys/dev/char/*/uevent; do
+    if ! grep -Fqx 'DEVNAME=dma_heap/qcom,system' "$file" 2>/dev/null; then continue; fi
+    major=$(sed -n 's/^MAJOR=//p' "$file")
+    minor=$(sed -n 's/^MINOR=//p' "$file")
+    case "$major:$minor" in *[!0-9:]*|:*|*:) exit 1 ;; esac
+    mknod -m 0444 "$node" c "$major" "$minor"
+    chown system:system "$node"
+    chcon u:object_r:vendor_dmabuf_system_heap_device:s0 "$node"
+    exit 0
+done
+exit 1

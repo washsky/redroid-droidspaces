@@ -1,0 +1,59 @@
+diff --git a/server/src/main/java/com/genymobile/scrcpy/video/LinearEncoderSupport.java b/server/src/main/java/com/genymobile/scrcpy/video/LinearEncoderSupport.java
+new file mode 100644
+index 0000000..ab6e89f
+--- /dev/null
++++ b/server/src/main/java/com/genymobile/scrcpy/video/LinearEncoderSupport.java
+@@ -0,0 +1,23 @@
++package com.genymobile.scrcpy.video;
++import android.os.Build;
++import android.view.Surface;
++import com.genymobile.scrcpy.util.Ln;
++import java.io.File;
++import java.io.IOException;
++/** Android 13 lab integration: keep the encoder's GPU-rendered input linear. */
++public final class LinearEncoderSupport {
++ private static boolean loaded;
++ private static volatile boolean active;
++ private static native int forceLinear(Surface surface);
++ public static boolean isActive(){return active;}
++ public static void attach(Surface surface,String codec)throws IOException {
++  active=Build.VERSION.SDK_INT==33 && codec!=null && codec.startsWith("c2.qti.")
++    && new File("/data/local/tmp/arm13-linear-recording.enabled").isFile();
++  if(!active)return;
++  try {
++   if(!loaded){System.load("/data/local/tmp/libarm13_linear_window.so");loaded=true;}
++   int r=forceLinear(surface);if(r!=0)throw new IOException("Linear encoder Surface setup failed: "+r);
++   Ln.i("ARM13: linear GPU Surface enabled for "+codec);
++  }catch(UnsatisfiedLinkError e){throw new IOException("ARM13 linear Surface helper unavailable",e);}
++ }
++}
+diff --git a/server/src/main/java/com/genymobile/scrcpy/video/ScreenCapture.java b/server/src/main/java/com/genymobile/scrcpy/video/ScreenCapture.java
+index 0768181..ddbba42 100644
+--- a/server/src/main/java/com/genymobile/scrcpy/video/ScreenCapture.java
++++ b/server/src/main/java/com/genymobile/scrcpy/video/ScreenCapture.java
+@@ -117,11 +117,11 @@ public class ScreenCapture extends SurfaceCapture {
+         }
+ 
+         Size inputSize;
+-        if (transform != null) {
++        if (transform != null || LinearEncoderSupport.isActive()) {
+             // If there is a filter, it must receive the full display content
+             inputSize = displayInfo.getSize();
+             assert glRunner == null;
+-            OpenGLFilter glFilter = new AffineOpenGLFilter(transform);
++            OpenGLFilter glFilter = new AffineOpenGLFilter(transform != null ? transform : AffineMatrix.IDENTITY);
+             glRunner = new OpenGLRunner(glFilter);
+             surface = glRunner.start(inputSize, videoSize, surface);
+         } else {
+diff --git a/server/src/main/java/com/genymobile/scrcpy/video/SurfaceEncoder.java b/server/src/main/java/com/genymobile/scrcpy/video/SurfaceEncoder.java
+index 539681b..754d0df 100644
+--- a/server/src/main/java/com/genymobile/scrcpy/video/SurfaceEncoder.java
++++ b/server/src/main/java/com/genymobile/scrcpy/video/SurfaceEncoder.java
+@@ -126,6 +126,7 @@ public class SurfaceEncoder implements AsyncProcessor {
+                 try {
+                     mediaCodec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+                     surface = mediaCodec.createInputSurface();
++                    LinearEncoderSupport.attach(surface, encoderName);
+ 
+                     capture.start(surface);
+                     captureStarted = true;

@@ -1,0 +1,30 @@
+#!/system/bin/sh
+set -e
+# Container-only Bootless Magisk. Never load SELinux policy or patch boot.
+SRC=/system/etc/arm13-magisk
+mkdir -p /sbin
+if ! grep -q ' /sbin .* - tmpfs magisk ' /proc/self/mountinfo; then
+ mount -t tmpfs -o mode=0755,nosuid,nodev magisk /sbin
+fi
+mkdir -p /sbin/.magisk/device
+chmod 0755 /sbin /sbin/.magisk
+chmod 0711 /sbin/.magisk/device
+cp "$SRC/magisk" /sbin/magisk.new
+chmod 0755 /sbin/magisk.new
+mv /sbin/magisk.new /sbin/magisk
+ln -sf magisk /sbin/su
+ln -sf magisk /sbin/resetprop
+mkdir -p /data/adb/magisk
+chmod 0700 /data/adb
+chmod 0755 /data/adb/magisk
+for F in magisk magiskboot magiskinit busybox util_functions.sh boot_patch.sh magiskpolicy; do
+ cp "$SRC/$F" "/data/adb/magisk/$F"
+ if [ "$F" = magiskpolicy ]; then chmod 0644 "/data/adb/magisk/$F"; else chmod 0755 "/data/adb/magisk/$F"; fi
+done
+# No --post-fs-data/modules/Zygisk; root management only.
+/system/bin/timeout -s KILL 10 /vendor/bin/arm13-magisk-daemon-guard
+
+DAEMON_PID=$(pidof magiskd)
+[ -n "$DAEMON_PID" ] || exit 1
+while kill -0 "$DAEMON_PID" 2>/dev/null; do sleep 5; done
+exit 1

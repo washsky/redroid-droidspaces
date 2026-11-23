@@ -1,0 +1,3 @@
+on init
+    setprop ro.hardware.hwcomposer redroid
+    setprop ro.crypto.state unsupported

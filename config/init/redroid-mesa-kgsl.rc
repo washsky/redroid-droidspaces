@@ -1,0 +1,6 @@
+on early-init
+    export TU_DEBUG noconform
+    export TURNIP_KMD kgsl
+
+on post-fs-data
+    setprop debug.hwui.renderer skiavk

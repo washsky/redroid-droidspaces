@@ -1,0 +1,14 @@
+# Persistent package selection is the only configuration source.
+service redroid.netbroker /vendor/bin/arm13-netbroker
+    class core
+    user shell
+    group shell inet package_info
+    socket r13_netbroker seqpacket 0660 shell inet
+    disabled
+    restart_period 2
+
+on post-fs-data
+    mkdir /dev/arm13-netbroker 0755 shell shell
+    setprop persist.redroid.netbroker_uids ""
+    setprop persist.redroid.netbroker_socket /dev/socket/r13_netbroker
+    exec -- /vendor/bin/arm13-netctl boot

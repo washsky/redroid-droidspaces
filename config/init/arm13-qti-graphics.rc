@@ -1,0 +1,8 @@
+service vendor.arm13.qti.allocator /vendor/bin/hw/vendor.qti.hardware.display.allocator-service
+    class hal animation
+    user system
+    group graphics drmrpc
+    capabilities SYS_NICE
+
+on init
+    exec -- /system/bin/sh /vendor/bin/arm13-make-qcom-system-heap

@@ -1,0 +1,9 @@
+service redroid.magisk /vendor/bin/arm13-magisk-start
+    class core
+    user root
+    group root
+    disabled
+    restart_period 3
+
+on post-fs-data
+    start redroid.magisk

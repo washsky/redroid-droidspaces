@@ -1,0 +1,143 @@
+[
+  {
+    "project": "art",
+    "base": "16f7312170ee252363a5e8b8d116075fbd7199bb",
+    "patch": "art.patch",
+    "bytes": 424,
+    "files": [
+      "runtime/gc/heap.cc"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "bionic",
+    "base": "bf5644d5887c3061d64e067214568c69ed1cc0ae",
+    "patch": "bionic.patch",
+    "bytes": 1047,
+    "files": [
+      "libc/bionic/system_property_api.cpp"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "external/minijail",
+    "base": "e92509cceadc87dee6725b363eb72bf7431ed5da",
+    "patch": "external__minijail.patch",
+    "bytes": 517,
+    "files": [
+      "libminijail.c"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "external/selinux",
+    "base": "7b67e70c8a306616c9d1e19aea62185e5812cf55",
+    "patch": "external__selinux.patch",
+    "bytes": 6539,
+    "files": [
+      "libselinux/include/selinux/selinux.h",
+      "libselinux/src/android/android.c",
+      "libselinux/src/android/android_platform.c",
+      "libselinux/src/checkAccess.c",
+      "libselinux/src/getenforce.c",
+      "libselinux/src/getfilecon.c",
+      "libselinux/src/getpeercon.c",
+      "libselinux/src/init.c",
+      "libselinux/src/label.c",
+      "libselinux/src/lgetfilecon.c",
+      "libselinux/src/lsetfilecon.c",
+      "libselinux/src/procattr.c",
+      "libselinux/src/sestatus.c"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "frameworks/av",
+    "base": "dbfeb7c7715c41d0118d3c914c6d85d093abc026",
+    "patch": "frameworks__av.patch",
+    "bytes": 1913,
+    "files": [
+      "media/libstagefright/colorconversion/SoftwareRenderer.cpp",
+      "media/libstagefright/omx/OMXStore.cpp"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "frameworks/base",
+    "base": "2391f0824ac30b5fba264f01fc6e4ae75db9c2f4",
+    "patch": "frameworks__base.patch",
+    "bytes": 3578,
+    "files": [
+      "core/jni/com_android_internal_os_Zygote.cpp"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "frameworks/native",
+    "base": "938b812be602db8d4424aa383ac9e4595ae4ab7b",
+    "patch": "frameworks__native.patch",
+    "bytes": 1647,
+    "files": [
+      "libs/binder/Binder.cpp",
+      "libs/binder/IPCThreadState.cpp",
+      "libs/binder/ProcessState.cpp"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "system/bpf",
+    "base": "52121cd0ee9eb6a5624665d3cf8922f7244ef1cd",
+    "patch": "system__bpf.patch",
+    "bytes": 2063,
+    "files": [
+      "bpfloader/BpfLoader.cpp",
+      "bpfloader/bpfloader.rc"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "system/core",
+    "base": "8301b33dad51cafd9d08876fc91a7e5fa556dcd3",
+    "patch": "system__core.patch",
+    "bytes": 9764,
+    "files": [
+      "init/first_stage_init.cpp",
+      "init/init.cpp",
+      "init/property_service.cpp",
+      "init/security.cpp",
+      "init/service.cpp",
+      "init/service_utils.cpp",
+      "init/uevent_listener.cpp",
+      "init/util.cpp",
+      "libcutils/uevent.cpp",
+      "rootdir/init.rc",
+      "rootdir/ueventd.rc"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "system/netd",
+    "base": "b7a6099aff35e8b2f7a88272e67a7feeb2b9f0c0",
+    "patch": "system__netd.patch",
+    "bytes": 2555,
+    "files": [
+      "server/BandwidthController.cpp",
+      "server/Controllers.cpp",
+      "server/IptablesRestoreController.cpp",
+      "server/TetherController.cpp",
+      "server/main.cpp"
+    ],
+    "applies_to_head": true
+  },
+  {
+    "project": "vendor/redroid",
+    "base": "1686c1825c146891d06004e35e7c362b58d3f1bc",
+    "patch": "vendor__redroid.patch",
+    "bytes": 5863,
+    "files": [
+      "ipconfigstore/main.cc",
+      "post-fs-data.redroid.sh"
+    ],
+    "applies_to_head": true
+  }
+]

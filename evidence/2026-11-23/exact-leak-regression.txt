@@ -1,0 +1,16 @@
+libgralloccore.so.pre-unlock-20261123.bak rc=137
+query format=34 usage=0 size=16
+format=34 support=0
+7b14d59000-7b14d63000 r--p 00000000 07:158 538                           /vendor/lib64/libgralloccore.so
+
+mapped branch=1400006c ptr=7b954aa4e0 owner=14a7
+
+libgralloccore.so rc=0
+query format=34 usage=0 size=16
+format=34 support=0
+7e4d4a4000-7e4d4ae000 r--p 00000000 07:158 595                           /vendor/lib64/libgralloccore.so
+
+mapped branch=14001437 ptr=7c1eec6640 owner=0
+second-thread support=1
+second-thread alloc=0 buffer=0xb400007c4eec70b0
+CROSS_THREAD_PASS

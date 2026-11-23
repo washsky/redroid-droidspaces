@@ -1,0 +1,17 @@
+[
+  {
+    "path": "src/util/u_gralloc/meson.build",
+    "old_sha256": "bac602453cb0fef57b06d944320bb85c21b6c1bb59db05d588f12ef0f8476bb1",
+    "new_sha256": "fe78e302c1e258c0932ab7cf083f864b13c27d981058bede581a84587ec3f1ac"
+  },
+  {
+    "path": "src/util/u_gralloc/u_gralloc.c",
+    "old_sha256": "8f3e20ecf8c8edea8c58950f4b3d066843ad275d688db7261e33f5d6e357e48b",
+    "new_sha256": "1e2060ff0d2cfd1a37a78046497584309e6b55a62b68fe03aeed868bc2ce3367"
+  },
+  {
+    "path": "src/util/u_gralloc/u_gralloc_internal.h",
+    "old_sha256": "c8d9c0c73009de5f122e55e243f2eebb4bad7203b19f3377fd830e841303896c",
+    "new_sha256": "a02d5c06f72cdceb49afc100bc0cbb67d656cc92edfb2274ccf907b11871517d"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "scope": "Known patch targets, not a complete audit of untracked files in every AOSP project",
+  "checked_projects": [
+    "art",
+    "bionic",
+    "external/minijail",
+    "external/selinux",
+    "frameworks/av",
+    "frameworks/base",
+    "frameworks/native",
+    "system/bpf",
+    "system/core",
+    "system/libbase",
+    "system/netd",
+    "system/sepolicy",
+    "vendor/redroid"
+  ],
+  "validation": "Each exported diff checked against its recorded HEAD using a temporary git index; all passed"
+}

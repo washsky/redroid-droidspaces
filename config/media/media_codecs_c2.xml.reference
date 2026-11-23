@@ -1,0 +1,3 @@
+<MediaCodecs>
+    <Include href="media_codecs_qti_arm13.xml" />
+</MediaCodecs>

@@ -1,0 +1,64 @@
+diff --git a/server/BandwidthController.cpp b/server/BandwidthController.cpp
+index 8dba75a..88305b0 100644
+--- a/server/BandwidthController.cpp
++++ b/server/BandwidthController.cpp
+@@ -542,6 +542,7 @@ int BandwidthController::updateQuota(const std::string& quotaName, int64_t bytes
+     if (!isOk(file)) {
+         int res = errno;
+         ALOGE("Updating quota %s failed (%s)", quotaName.c_str(), toString(file).c_str());
++        res = 0; // HACKED
+         return -res;
+     }
+     // TODO: should we propagate this error?
+diff --git a/server/Controllers.cpp b/server/Controllers.cpp
+index 00ee186..c07f1b8 100644
+--- a/server/Controllers.cpp
++++ b/server/Controllers.cpp
+@@ -284,7 +284,6 @@ void Controllers::init() {
+         // As such simply exit netd.  This may crash loop the system, but by failing
+         // to bootup we will trigger rollback and thus this offers us protection against
+         // a mainline update breaking things.
+-        exit(1);
+     }
+     gLog.info("Enabling bandwidth control: %" PRId64 "us", s.getTimeAndResetUs());
+ 
+diff --git a/server/IptablesRestoreController.cpp b/server/IptablesRestoreController.cpp
+index f7ba200..2cc5899 100644
+--- a/server/IptablesRestoreController.cpp
++++ b/server/IptablesRestoreController.cpp
+@@ -345,6 +345,7 @@ int IptablesRestoreController::execute(const IptablesTarget target, const std::s
+     if (target == V6 || target == V4V6) {
+         res |= sendCommand(IP6TABLES_PROCESS, command, output);
+     }
++    res = 0;  // ignore iptables error
+     return res;
+ }
+ 
+diff --git a/server/TetherController.cpp b/server/TetherController.cpp
+index 7919357..826ef43 100644
+--- a/server/TetherController.cpp
++++ b/server/TetherController.cpp
+@@ -917,9 +917,11 @@ StatusOr<TetherController::TetherStatsList> TetherController::getTetherStats() {
+         }
+ 
+         if (int ret = addForwardChainStats(statsList, statsString, parsedIptablesOutput)) {
++#if 0
+             return statusFromErrno(-ret, StringPrintf("failed to parse %s tether stats:\n%s",
+                                                       target == V4 ? "IPv4": "IPv6",
+                                                       parsedIptablesOutput.c_str()));
++#endif
+         }
+     }
+ 
+diff --git a/server/main.cpp b/server/main.cpp
+index 0e81d4e..ed4dc49 100644
+--- a/server/main.cpp
++++ b/server/main.cpp
+@@ -134,7 +134,6 @@ int main() {
+ 
+     if (libnetd_updatable_init(cg2_path.c_str())) {
+         ALOGE("libnetd_updatable_init failed");
+-        exit(1);
+     }
+     gLog.info("libnetd_updatable_init success");
+ 

@@ -1,0 +1,10 @@
+cc_library_shared {
+    name: "libarm13_mesa_gralloc",
+    vendor: true,
+    compile_multilib: "64",
+    srcs: ["bridge-mapper4.cpp"],
+    shared_libs: ["libgralloctypes", "libhidlbase", "libutils", "libcutils",
+                  "android.hardware.graphics.mapper@4.0"],
+    cflags: ["-Wall", "-Wextra", "-Werror"],
+    cpp_std: "c++17",
+}

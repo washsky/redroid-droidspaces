@@ -1,0 +1,154 @@
+diff --git a/ipconfigstore/main.cc b/ipconfigstore/main.cc
+index f5f2e0f..6448935 100644
+--- a/ipconfigstore/main.cc
++++ b/ipconfigstore/main.cc
+@@ -26,6 +26,7 @@ struct ipconfig {
+ };
+ 
+ static int get_gateway(char *dev, char *ret) {
++    ret[0] = '\0';
+     FILE *fp;
+     char buf[256]; // 128 is enough for linux
+     char iface[16];
+@@ -57,9 +58,10 @@ static int bitcount(uint32_t n)
+ static int get_conf(struct ipconfig *conf) {
+     struct ifaddrs *ifAddrStruct;
+     void *tmpAddrPtr=NULL;
+-    getifaddrs(&ifAddrStruct);
++    if (getifaddrs(&ifAddrStruct) != 0) return -1;
++    struct ifaddrs *head = ifAddrStruct;
+     while (ifAddrStruct != NULL) {
+-        if (ifAddrStruct->ifa_addr->sa_family==AF_INET && !strcmp("eth0", ifAddrStruct->ifa_name)) {
++        if (ifAddrStruct->ifa_addr && ifAddrStruct->ifa_netmask && ifAddrStruct->ifa_addr->sa_family==AF_INET && !strcmp("eth0", ifAddrStruct->ifa_name)) {
+             tmpAddrPtr=&((struct sockaddr_in *)ifAddrStruct->ifa_addr)->sin_addr;
+             inet_ntop(AF_INET, tmpAddrPtr, conf->ipv4, INET_ADDRSTRLEN);
+             conf->mask = bitcount(((struct sockaddr_in *)ifAddrStruct->ifa_netmask)->sin_addr.s_addr);
+@@ -67,9 +69,9 @@ static int get_conf(struct ipconfig *conf) {
+         }
+         ifAddrStruct=ifAddrStruct->ifa_next;
+     }
+-    freeifaddrs(ifAddrStruct);
++    freeifaddrs(head);
+     get_gateway((char *) "eth0", conf->gateway);
+-    return 0;
++    return conf->ipv4[0] ? 0 : -1;
+ }
+ 
+ static void write_dns(FILE *fp) {
+@@ -118,23 +120,30 @@ static void write_proxy(FILE *fp) {
+ static int write_conf(struct ipconfig *conf, uint32_t v) {
+     FILE *fp = fopen("/data/misc/ethernet/ipconfig.txt", "w+");
+ 
++    if (!fp) {
++        perror("ipconfigstore: cannot open Ethernet configuration");
++        return 1;
++    }
++
+     writePackedUInt32(v, fp); // version
+ 
+     writePackedString("ipAssignment", fp);
+-    writePackedString("STATIC", fp);
++    writePackedString(conf ? "STATIC" : "DHCP", fp);
+ 
+-    writePackedString("linkAddress", fp);
+-    writePackedString(conf->ipv4, fp);
+-    writePackedUInt32(conf->mask, fp);
++    if (conf) {
++        writePackedString("linkAddress", fp);
++        writePackedString(conf->ipv4, fp);
++        writePackedUInt32(conf->mask, fp);
+ 
+-    writePackedString("gateway", fp);
+-    writePackedUInt32(1, fp); // Default route (dest).
+-    writePackedString("0.0.0.0", fp);
+-    writePackedUInt32(0, fp);
+-    writePackedUInt32(1, fp); // Have a gateway.
+-    writePackedString(conf->gateway, fp);
++        writePackedString("gateway", fp);
++        writePackedUInt32(1, fp); // Default route (dest).
++        writePackedString("0.0.0.0", fp);
++        writePackedUInt32(0, fp);
++        writePackedUInt32(conf->gateway[0] ? 1 : 0, fp); // Have a gateway.
++        if (conf->gateway[0]) writePackedString(conf->gateway, fp);
+ 
+-    write_dns(fp);
++        write_dns(fp);
++    }
+ 
+     write_proxy(fp);
+ 
+@@ -144,8 +153,8 @@ static int write_conf(struct ipconfig *conf, uint32_t v) {
+ 
+     writePackedString("eos", fp);
+ 
+-    fclose(fp);
+-    return 0;
++    const bool failed = ferror(fp);
++    return fclose(fp) != 0 || failed ? 1 : 0;
+ }
+ 
+ int main(int argc, char **argv) {
+@@ -156,10 +165,25 @@ int main(int argc, char **argv) {
+     // use V2 for Android 8.1
+     if (GetIntProperty("ro.build.version.sdk", 0) <= 27) v = 2;
+ 
+-    struct ipconfig conf;
+-    get_conf(&conf);
++    // DHCP must remain DHCP in Android's Ethernet store. Importing an early
++    // lease as STATIC would let IpClient restore an expired address and lose DNS.
++    SetProperty("vendor.redroid.network_api", "1");
++    const auto mode = GetProperty("ro.boot.redroid_net_mode", "static");
++    if (mode == "dhcp") {
++        SetProperty("vendor.redroid.network_mode", "dhcp");
++        return write_conf(nullptr, v);
++    }
++    if (mode != "static") {
++        fprintf(stderr, "ipconfigstore: unsupported redroid_net_mode: %s\n", mode.c_str());
++        return 1;
++    }
++    SetProperty("vendor.redroid.network_mode", "static");
++    struct ipconfig conf = {};
++    if (get_conf(&conf) != 0) {
++        fprintf(stderr, "ipconfigstore: eth0 has no static IPv4 address; use redroid_net_mode=dhcp for DHCP\n");
++        return 1;
++    }
+     printf("ipconfig: ipv4: %s, mask: %i, gateway: %s", conf.ipv4, conf.mask, conf.gateway);
+-    write_conf(&conf, v);
+-    return 0;
++    return write_conf(&conf, v);
+ }
+ 
+diff --git a/post-fs-data.redroid.sh b/post-fs-data.redroid.sh
+index 67cd1b4..236a3a3 100755
+--- a/post-fs-data.redroid.sh
++++ b/post-fs-data.redroid.sh
+@@ -1,5 +1,27 @@
+ #!/system/bin/sh
+ 
+-## enable `memfd` if `ashmem` missing
+-## memfd is disabled in post-fs-data (init.rc)
++## 1. 开启 memfd 支持 (内核 5.18+ ashmem 移除兼容)
+ [ -c /dev/ashmem ] || setprop sys.use_memfd 1
++
++## 2. 卸载重复覆盖挂载的 devpts，确保 /dev/ptmx 与 /dev/pts 配对，完美支持 adb shell
++while [ $(grep -c " /dev/pts " /proc/mounts 2>/dev/null || echo 0) -gt 1 ]; do
++    /system/bin/umount /dev/pts 2>/dev/null || break
++done
++
++## 3. 卸载重复覆盖挂载的 /proc，恢复 LXCFS 虚拟化 (精准呈现分配内存与 cgroup 配额)
++while [ $(grep -c " /proc " /proc/mounts 2>/dev/null || echo 0) -gt 1 ]; do
++    /system/bin/umount -l /proc 2>/dev/null || break
++done
++
++## 4. 强制触发 linkerconfig 生成完整版 APEX 命名空间配置 (178KB)
++if [ -x /apex/com.android.runtime/bin/linkerconfig ]; then
++    /apex/com.android.runtime/bin/linkerconfig --target /linkerconfig 2>/dev/null || true
++fi
++
++## 5. 确保 /dev/tty 存在，赋予完整的 job control 与 controlling tty 支持 (支持 adb shell 运行 top/交互程序)
++if [ ! -c /dev/tty ]; then
++    /system/bin/mknod -m 666 /dev/tty c 5 0 2>/dev/null || true
++fi
++
++## 6. 启动原生控制台交互终端服务 (/dev/console)
++start console 2>/dev/null || true

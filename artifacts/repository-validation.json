@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-24",
+  "timezone": "Asia/Shanghai",
+  "checks": {
+    "aosp_exported_patches_against_recorded_HEAD": "11 passed, temporary index",
+    "NDK_r29_native_helpers": "compiled successfully, warnings retained",
+    "netmanager_APK_from_public_sources": "built and signed using local AOSP lab test key; not deployed",
+    "patched_scrcpy_server_from_public_build_script": "built successfully; not redeployed",
+    "Gralloc_patch_positive": "output exactly matches installed SHA256",
+    "Gralloc_patch_negative_python_O": "unsupported input rejected, no output created",
+    "offline_resize_disposable_32MiB_image_plus_1GiB": "passed backup/hash/e2fsck/resize/e2fsck; live device untouched",
+    "documentation_relative_links": "passed",
+    "public_content_secret_scan": "passed"
+  },
+  "not_run": [
+    "AOSP full rebuild from an empty checkout",
+    "entirely new rootfs deployment from this repository",
+    "one-hour endurance",
+    "game login/battle/automation"
+  ]
+}

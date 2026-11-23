@@ -155,7 +155,11 @@ public final class MainActivity extends Activity {
     String errorLabel(String s){if(s==null)return "操作失败";if(s.contains("STALE_CONFIG"))return "配置已变化，请刷新后重试";if(s.contains("BAD_PACKAGE"))return "应用包名无效，未修改配置";return s;}
     JSONObject call(String operation,String input)throws Exception{
         if(!Arrays.asList("status","save","restart").contains(operation))throw new IOException("BAD_OPERATION");
-        java.lang.Process p=new ProcessBuilder("/system/bin/su","-c","/vendor/bin/arm13-netctl "+operation).redirectErrorStream(true).start();
+        // The app inherits the Zygote socket broker preload. A vendor control
+        // executable cannot load that system library in its linker namespace.
+        ProcessBuilder builder=new ProcessBuilder("/system/bin/su","-c","/vendor/bin/arm13-netctl "+operation);
+        builder.environment().remove("LD_PRELOAD");
+        java.lang.Process p=builder.redirectErrorStream(true).start();
         ScheduledExecutorService timer=Executors.newSingleThreadScheduledExecutor();timer.schedule(()->p.destroyForcibly(),20,TimeUnit.SECONDS);
         try{
             try(OutputStream o=p.getOutputStream()){if(input!=null)o.write(input.getBytes(StandardCharsets.UTF_8));}

@@ -68,3 +68,7 @@ libandroid_runtime 和 ipconfigstore 已与 Ubuntu out 目录产物再次比对�
 2. 在独立干净镜像中重放构建与增量部署，产出新的可分发 rootfs；本次公开仓库自身尚未从零重建整台环境。
 3. 用户愿意时再做长时稳定性、真实游戏登录后网络和脚本流程；不要把前述短时验证写成完成。
 4. 针对其他 ROM/芯片重新定位 Gralloc/Codec；不能把本机二进制偏移或 /dev/video32/33 直接推广。
+
+## 2026-11-24 独立复现追加
+
+新增目标 redroid13repro，12 GiB，NAT 172.28.41.37，转发15614，run_at_boot=0。原 redroid13arm 与 arch2 保持运行。复用已有 system/vendor，重建空 data 并重新安装测试 APK；首次部署和一次冷启动的 HTTPS、GPU、Gralloc、H264 Surface、浏览器与管理器通过。新管理 APK 修复了控制进程继承 LD_PRELOAD 的问题，仅部署到新目标。详情及限制以 [复现报告](REPRODUCTION_20261124.md) 和 [装配指南](PREBUILT_REPRODUCTION.md) 为准。不要因新增目标而混用原容器的 UID、Binder 节点和端口。

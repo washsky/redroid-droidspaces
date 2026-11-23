@@ -1,0 +1,8 @@
+query format=34 usage=0 size=16
+format=34 support=0
+7c4fe9a000-7c4fea4000 r--p 00000000 07:178 564                           /vendor/lib64/libgralloccore.so
+
+mapped branch=14001437 ptr=7ccff4ce50 owner=0
+second-thread support=1
+second-thread alloc=0 buffer=0xb400007cfff4b010
+CROSS_THREAD_PASS

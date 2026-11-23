@@ -17,4 +17,5 @@ flags=(-O2 -Wall -Wextra)
 "$cc" "${flags[@]}" "$r/src/gralloc/find-gralloc-leak.c" -landroid -o "$o/arm13-find-gralloc-leak"
 "$cc" "${flags[@]}" "$r/src/gralloc/isolated-probe.c" -o "$o/arm13-isolated-gralloc-probe"
 "$cc" "${flags[@]}" "$r/src/probes/read-gralloc-mutex.c" -o "$o/arm13-gralloc-lock-read"
+"$cc" "${flags[@]}" "$r/src/probes/binderfs-add.c" -o "$o/arm13-binderfs-add"
 echo "Built into $o; nothing installed on a device."

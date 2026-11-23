@@ -1,0 +1,8 @@
+uid=0(root) gid=0(root) groups=0(root)
+{"ok":true,"enabled":true,"revision":2,"activeRevision":2,"service":"running","packages":["com.awcocxb","com.mmbox.xbrowser","lab.arm13.gpuprobe","lab.arm13.probe","mark.via"],"configuredUids":[10079,10082,10077,10080],"uids":[10079,10082,10077,10080],"socketUid":2000,"installedConfig":true}
+468
+299
+298
+--------- beginning of crash
+11-23 20:38:32.976   221   221 F linker  : CANNOT LINK EXECUTABLE "/system/bin/keystore2": library "libandroidicu.so" not found: needed by /system/lib64/libsqlite.so in namespace (default)
+11-23 20:38:37.956   229   229 F linker  : CANNOT LINK EXECUTABLE "/system/bin/keystore2": library "libandroidicu.so" not found: needed by /system/lib64/libsqlite.so in namespace (default)

@@ -1,0 +1,12 @@
+CONFIGURE c2.qti.avc.encoder
+LINEAR_BEFORE=0
+INPUT_SURFACE_READY
+LINEAR_AFTER=0
+RENDERER=ANGLE (Qualcomm, Vulkan 1.4.363 (Turnip Adreno (TM) 725 (0x07030002)), turnip Mesa driver-26.99.99)
+CODEC_STARTED INPUT={crop-right=319, color-format=2130708361, latency=4, mime=video/raw, hdr-static-info=java.nio.HeapByteBuffer[pos=0 lim=25 cap=25], priority=0, intra-refresh-period=0, color-standard=5, feature-secure-playback=0, color-transfer=3, crop-bottom=239, prepend-sps-pps-to-idr-frames=0, video-qp-average=0, crop-left=0, width=320, color-range=2, crop-top=0, frame-rate=15, height=240}
+GPU_PIXEL frame=0 rgb=0,77,179 error=0
+FIRST_SWAP_OK
+OUTPUT_FORMAT_READY
+GPU_PIXEL frame=29 rgb=255,77,179 error=0
+SURFACE_RESULT CODEC=c2.qti.avc.encoder SUBMITTED=30 ENCODED=30 EOS=true FILE=/data/user/0/lab.arm13.gpuprobe/files/surface-c2.qti.avc.encoder.mp4
+SURFACE_PASS

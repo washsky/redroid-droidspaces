@@ -1,0 +1,8 @@
+Enforcing
+protected pid=24174 starttime=6353308
+protected pid=19643 starttime=135633
+HTTP/1.1 200 OK
+2684354560
+0
+MemAvailable:    3337336 kB
+WIFI_ADB_OK

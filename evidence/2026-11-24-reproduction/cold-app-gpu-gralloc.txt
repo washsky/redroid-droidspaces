@@ -1,0 +1,19 @@
+--------- beginning of main
+11-23 20:39:04.376  1808  1829 I ARM13PROBE: PRIVATE STORAGE: true
+11-23 20:39:04.377  1808  1829 I ARM13PROBE: SHARED MEMORY: 4096 protect=true read=42
+11-23 20:39:05.744  1808  1829 I ARM13PROBE: TLS https://example.com/ HTTP 200 bytes=128 TLS_AES_128_GCM_SHA256
+Starting: Intent { cmp=lab.arm13.gpuprobe/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: lab.arm13.gpuprobe/.MainActivity
+TotalTime: 198
+WaitTime: 200
+Complete
+query format=34 usage=0 size=16
+format=34 support=0
+72cac9a000-72caca4000 r--p 00000000 07:168 564                           /vendor/lib64/libgralloccore.so
+
+mapped branch=14001437 ptr=70972a0900 owner=0
+second-thread support=1
+second-thread alloc=0 buffer=0xb4000070c72a72f0
+CROSS_THREAD_PASS

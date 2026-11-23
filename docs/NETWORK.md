@@ -74,3 +74,7 @@ adb -s "$INNER_ADB" shell 'su -c "/vendor/bin/arm13-netctl restart"'
 Android VALIDATED 使用真实可达的 HTTP/HTTPS204 探测服务；实验曾采用 connect.rom.miui.com/generate_204。Google 探测站线路超时不是伪造验证的理由。
 
 回退时恢复**与该阶段匹配**的原 Zygote rc，移除新增 preload、停用 broker；先备份当前包名选择。仅重启目标容器。旧“固定 UID 属性白名单”已被管理器包名配置替代，不重新启用旧方案。
+
+## 2026-11-24 独立部署发现的前端修复
+
+管理器创建 su 控制进程前从 ProcessBuilder 环境移除继承的 LD_PRELOAD，避免 vendor 命名空间拒绝 system socket broker 库。应用本身仍使用 broker。公开源码重建 APK 在新容器验证了多包保存、服务重启和冷启动恢复，见 [复现报告](REPRODUCTION_20261124.md)。

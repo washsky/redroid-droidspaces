@@ -50,3 +50,7 @@
 - Java SharedMemory 成功不能替代 Chromium 的 fd/protection-flags 检查。
 - “cgroup 有独立目录/map”不等于有效 BPF 程序已经隔离。
 - 活跃 rootfs 含 /data，哈希随使用改变；不要拿构建原始哈希判定它损坏。
+
+## 2026-11-24 独立空数据部署验收
+
+在相同真机新增 redroid13repro，复用编译产物重放仓库配置和补丁；完成首次部署、一次冷启动及 HTTPS、GPU、Gralloc、H264 Surface、浏览器和网络管理器验证。修复前端控制命令继承 LD_PRELOAD 的问题。原容器和 arch2 未重启。实际范围与保留问题见 [本轮复现报告](REPRODUCTION_20261124.md)。

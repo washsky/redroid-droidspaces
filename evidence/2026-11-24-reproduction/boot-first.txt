@@ -1,0 +1,22 @@
+1
+476
+300
+299
+11: eth0@if57: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netnsid 0
+    inet 172.28.41.37/16 brd 172.28.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+0
+false
+false
+Current WebView Update Service state
+  Multiprocess enabled: true
+  Current WebView package (name, version): (com.android.webview, 157.0.8103.78)
+  Minimum targetSdkVersion: 33
+  Minimum WebView version code: 810307801
+  Number of relros started: 1
+  Number of relros finished: 1
+  WebView package dirty: false
+  Any WebView package installed: true
+  Preferred WebView package (name, version): (com.android.webview, 157.0.8103.78)
+  WebView packages:
+    Valid package com.android.webview (versionName: 157.0.8103.78, versionCode: 810307801, targetSdkVersion: 36) is  installed/enabled for all users

@@ -1,0 +1,10 @@
+--------- beginning of main
+11-23 20:32:18.277  2778  2799 I ARM13PROBE: TLS FAIL https://www.google.com/generate_204 java.net.SocketTimeoutException: failed to connect to www.google.com/142.251.152.119 (port 443) from /172.28.41.37 (port 50604) after 7000ms
+11-23 20:37:30.740  5867  5888 I ARM13PROBE: PRIVATE STORAGE: true
+11-23 20:37:30.741  5867  5888 I ARM13PROBE: SHARED MEMORY: 4096 protect=true read=42
+11-23 20:37:31.937  5867  5888 I ARM13PROBE: TLS https://example.com/ HTTP 200 bytes=128 TLS_AES_128_GCM_SHA256
+{"ok":true,"enabled":true,"revision":2,"activeRevision":2,"service":"running","packages":["com.awcocxb","com.mmbox.xbrowser","lab.arm13.gpuprobe","lab.arm13.probe","mark.via"],"configuredUids":[10079,10082,10077,10080],"uids":[10079,10082,10077,10080],"socketUid":2000,"installedConfig":true}
+9b9ef72e4b3a37be2f1eb1325f109de8f399a21c21f8c3c4d2017587984264d9  /data/misc/redroid-netbroker/packages
+476
+300
+299

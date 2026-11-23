@@ -1,0 +1,152 @@
+{
+  "date": "2026-11-24",
+  "base_repository_commit": "e7cd34f0e6098a03c116cf7e00673556cc4483fb",
+  "method": "prebuilt system/vendor, empty data, public config/native replay, no AOSP/Mesa/Codec rebuild",
+  "base_image_sha256": "ab65cb2dbc97e56829dcdce0f05a5af31a2152977194797405a6ac3a98edcc6f",
+  "image_size_bytes": 12884901888,
+  "target": "redroid13repro",
+  "files_sha256": {
+    "/init.droidspaces": "ad417f91215cd7071acdf6ca93398c3ec0b9f80cc9d325fa5d7d9d1beebe31b5",
+    "/system/bin/zygote-fd-wrapper": "3cbaa0927b33604cc6fd51e88cde734008f644d99fc5063df763a01f8f5237f9",
+    "/system/lib64/libandroid_runtime.so": "41ebfbeb2634b53fc40482d237452538bdfd662f503c965a5e20b94265895b15",
+    "/system/lib64/libcutils.so": "47ad4982377c17425e709c5b6d9ec1d3efbb19c25e1daa141da82ef7078d79a5",
+    "/vendor/bin/ipconfigstore": "6cc88412039ab4ebc0ddb66411d49eaa38cdaea81aac1378c0b86ce9c9ec3108",
+    "/vendor/lib64/libgralloccore.so": "7ba792e5becada349ca60216468b9b444c99c531ce7915db0a387e7aefb10337",
+    "/vendor/lib64/hw/vulkan.freedreno.so": "4c0d658e59fd384c9d52bdc39f80443111e7bc403c464435bfb4bca99c982765",
+    "/vendor/lib64/libarm13_mesa_gralloc.so": "974fd7df113118fce74cc0871d39354ed149b2a4e779a3d6cf6c625cc1f6ce12",
+    "/vendor/bin/arm13-netbroker": "7a8ee66bf2cdecf7d8f8abb04f49495716d5589d11e887091984aba92cf9b287",
+    "/vendor/bin/arm13-netctl": "16cecea6f65b44693cd152587652f1a00c978142804514b46cab4cd710a412f0",
+    "/system/lib64/libarm13_socketbroker.so": "7ba360d8cc962c0531cda011f4d5c99c1b0164eca6147fc5d77df2664c0b1d2b",
+    "/vendor/lib64/arm13-codec-compat/android.hardware.media.c2@1.0.so": "e5f4dcfafc54af34b85c290421ce21d8e4943a36519fedebf50d2f482022d81a",
+    "/vendor/lib64/arm13-codec-compat/libarm13_codec_vulkan.so": "307fbfdf10f1e9cfa110ca62fe0e023c04394ff3ff0def54bd50bae4abb07482",
+    "/vendor/lib64/arm13-codec-compat/libarm13_linear_window.so": "c908a08a7e70b723682e0a3cf162d7ffb378a9620fa767bece47ae010c8a2e87",
+    "/vendor/lib64/arm13-codec-compat/libavservices_minijail.so": "c7bd39581a9c38850f824d7fadca3abbef71ff15f760edb9ccca1e1364ad53cf",
+    "/vendor/lib64/arm13-codec-compat/libcodec2_hidl@1.0.so": "dd8f2f1e72ca515c74c49ecfaa623937a7d90e20b88d0f3cc068895f7159d81e",
+    "/vendor/lib64/arm13-codec-compat/libcodec2_hidl_plugin_stub.so": "12442356a8be50338e995ceb44e9b726c0ac21957a4fc7305ecad4114071a353",
+    "/vendor/lib64/arm13-codec-compat/libcodec2_vndk.so": "994322c7c468380dd6886c3f1bb278ea585a3e6a1e5c6f560364ecc7133ed07e",
+    "/vendor/lib64/arm13-codec-compat/libllvm-qcom.so": "5127bb5e1b366c1caa72b8ec542e8ba8a1e304950ead2797750d5c16fe72007a",
+    "/vendor/lib64/arm13-codec-compat/libllvm-qgl.so": "abebfca3e349a869a2fc266df42aa8a450da0afedcb0fd1b9dbedbd0d11d068c",
+    "/vendor/lib64/arm13-codec-compat/libstagefright_bufferpool@2.0.1.so": "0e2ad5f8cff5ac6eaf2c01728b71c25f9541f9da304add9524620d6d7361ebc9",
+    "/vendor/lib64/arm13-codec-compat/libstagefright_bufferqueue_helper_novndk.so": "c7707ee8b243fb3c3a87605d806ea6ca9f9f773f81fbe688ea476881c89e39f1",
+    "/system/product/app/webview/webview.apk": "4828148a2478d1e961ead9b7dd984bb99588dcd06d625ad19d971df899379250"
+  },
+  "payload": [
+    {
+      "path": "system/etc/init/hw/init.zygote64.rc",
+      "sha256": "3a844fdff4789e2de1881def023bb5fdc4669a5450b437db52ffa5ceb0b0b79a",
+      "mode": "0o644"
+    },
+    {
+      "path": "system/lib64/libarm13_socketbroker.so",
+      "sha256": "7ba360d8cc962c0531cda011f4d5c99c1b0164eca6147fc5d77df2664c0b1d2b",
+      "mode": "0o644"
+    },
+    {
+      "path": "system/lib64/libmagisk_container_context.so",
+      "sha256": "ec98eabee3a53db762b1f05ef5b4aaafea2da11586ff2fb011a9d54c6bab4ca1",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/bin/arm13-magisk-daemon-guard",
+      "sha256": "ae24a697bd661c9c3c41e279692d3a87133976773f6d4036ed987a90c4f7edf0",
+      "mode": "0o755"
+    },
+    {
+      "path": "vendor/bin/arm13-magisk-start",
+      "sha256": "3c6b931261477c1fa3a3748fb74c5b3819e26cb4bb290e329e9e5cac85e01b79",
+      "mode": "0o755"
+    },
+    {
+      "path": "vendor/bin/arm13-make-qcom-system-heap",
+      "sha256": "d2c9b79f42238c532e621b28815633c358424b0bcae56466e1f0046855381802",
+      "mode": "0o755"
+    },
+    {
+      "path": "vendor/bin/arm13-netbroker",
+      "sha256": "7a8ee66bf2cdecf7d8f8abb04f49495716d5589d11e887091984aba92cf9b287",
+      "mode": "0o755"
+    },
+    {
+      "path": "vendor/bin/arm13-netctl",
+      "sha256": "16cecea6f65b44693cd152587652f1a00c978142804514b46cab4cd710a412f0",
+      "mode": "0o700"
+    },
+    {
+      "path": "vendor/etc/init/arm13-qti-codec.rc",
+      "sha256": "22236391a7a1768634528926d52bc79f4b8ba63fa581dfcf2db5f181eae5b26c",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/init/arm13-qti-graphics.rc",
+      "sha256": "f45c3f145c610abaa6cdc4fdb39a6d4c2e71fa1177cb42126e1e2685eed5b663",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/init/droidspaces-hardware.rc",
+      "sha256": "065ca5b461cacea36975ee75aaf653dff1432f4573ab3dad6d87b26a7b779e31",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/init/redroid-magisk.rc",
+      "sha256": "cc8fe127a7cde6761b0d9bec29859bf553987fff298e56fb924498d23f7ee07d",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/init/redroid-mesa-kgsl.rc",
+      "sha256": "854daf71d89751b19109c10438e3ba2e919df72fc7cd1922861942a0062e5ae6",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/init/redroid-netbroker.rc",
+      "sha256": "d184428a8aacc236c4c01781a5091645fb6bafbb4e34fbcef8b130658dac2ab0",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/init/redroid.common.rc",
+      "sha256": "50040d9317e9468e3a569ad3abd085870ee5776bcd4f4ba414e17f9956eb7899",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/media_codecs_c2.xml",
+      "sha256": "d630e7ff81dfd48256f28eb8465c9d73a8b5f4fbdabe99025cdfd70a8ccc3c87",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/media_codecs_qti_arm13.xml",
+      "sha256": "db64bafb69fe10ce237df1dc09ac316cd770dba4408bc306af3fe1cf6ac10d5c",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/etc/vintf/manifest/arm13-qti-allocator.xml",
+      "sha256": "9ceb167d036b34b4f69ec5975c35b7447955d8277cfab2f459abc631ea9615b4",
+      "mode": "0o664"
+    },
+    {
+      "path": "vendor/etc/vintf/manifest/arm13-qti-codec.xml",
+      "sha256": "619e8e0dc90d6f9b22c849e5efae73978e4bdec1dd443f6803e7a2db63c4fdff",
+      "mode": "0o664"
+    },
+    {
+      "path": "vendor/etc/vintf/manifest/arm13-qti-mapper.xml",
+      "sha256": "da41e8e09625e29f9e10b61d56fa93b299eea362acca7909468db4d0a7cf7aae",
+      "mode": "0o664"
+    },
+    {
+      "path": "vendor/lib64/arm13-codec-compat/libarm13_codec_vulkan.so",
+      "sha256": "307fbfdf10f1e9cfa110ca62fe0e023c04394ff3ff0def54bd50bae4abb07482",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/lib64/arm13-codec-compat/libarm13_linear_window.so",
+      "sha256": "c908a08a7e70b723682e0a3cf162d7ffb378a9620fa767bece47ae010c8a2e87",
+      "mode": "0o644"
+    },
+    {
+      "path": "vendor/lib64/libgralloccore.so",
+      "sha256": "7ba792e5becada349ca60216468b9b444c99c531ce7915db0a387e7aefb10337",
+      "mode": "0o644"
+    }
+  ],
+  "manager_apk_sha256": "c684a8204ba83a8fcbc7eda655ef5b5c6b4cc1a43ab5a49157a531ea0f87e1e2",
+  "unreconstructed_inputs": "init/zygote wrappers and private codec compatibility binaries are reused; see REPRODUCIBILITY_GAPS.md"
+}

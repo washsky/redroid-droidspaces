@@ -1,0 +1,12 @@
+u0_a82        4373   299 com.awcocxb
+u0_a82        4403   299 com.awcocxb:web
+root          4524     1 com.awcocxb:shell
+root          4541  4524 com.awcocxb:remote
+shell         4616   331 sh -c su -c 'ps -A -o USER,PID,PPID,ARGS | grep -E "gkid|com.core|awcocxb" | head -15'; logcat -d -s Magisk:I | tail -8
+shell         4618  4616 su -c ps -A -o USER,PID,PPID,ARGS | grep -E "gkid|com.core|awcocxb" | head -15
+root          4622  4621 app_process /system/bin com.android.commands.content.Content call --uri content://com.topjohnwu.magisk.provider --user current --method notify --extra from.uid:i:2000 --extra to.uid:i:0 --extra pid:i:4618 --extra policy:i:2 --extra target:i:-1 --extra context:s: --extra gids:s: --extra command:s:/system/bin/sh -c ps -A -o USER,PID,PPID,ARGS | grep -E "gkid|com.core|awcocxb" | head -15 --extra legacy_cmd:b:false --extra notify:b:false --extra log:b:true
+root          4623   291 sh -c ps -A -o USER,PID,PPID,ARGS | grep -E "gkid|com.core|awcocxb" | head -15
+root          4625  4623 grep -E gkid|com.core|awcocxb
+--------- beginning of main
+11-23 20:41:13.211   291  2290 W Magisk  : su: request rejected (10082)
+11-23 20:41:23.847   291  2290 W Magisk  : su: request rejected (10082)

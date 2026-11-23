@@ -1,0 +1,17 @@
+1
+468
+299
+298
+0
+{"ok":true,"enabled":true,"revision":2,"activeRevision":2,"service":"running","packages":["com.awcocxb","com.mmbox.xbrowser","lab.arm13.gpuprobe","lab.arm13.probe","mark.via"],"configuredUids":[10079,10082,10077,10080],"uids":[10079,10082,10077,10080],"socketUid":2000,"installedConfig":true}
+9b9ef72e4b3a37be2f1eb1325f109de8f399a21c21f8c3c4d2017587984264d9  /data/misc/redroid-netbroker/packages
+  NetworkAgentInfo{network{100}  handle{432902426637}  ni{Ethernet CONNECTED extra: 02:b0:91:85:fe:d1} Score(-2147483648 ; KeepConnected : 0 ; Policies : EVER_VALIDATED_NOT_AVOIDED_WHEN_BAD&IS_UNMETERED&IS_VALIDATED)  created everValidated lastValidated  lp{{InterfaceName: eth0 LinkAddresses: [ fe80::294f:55fa:f3a:3322/64,172.28.41.37/16 ] DnsAddresses: [ /1.1.1.1,/8.8.8.8 ] UsePrivateDns: true ValidatedPrivateDnsAddresses: [1.1.1.1] Domains: null MTU: 0 ServerAddress: /172.28.0.1 TcpBufferSizes: 524288,1048576,3145728,524288,1048576,2097152 Routes: [ fe80::/64 -> :: eth0 mtu 0,172.28.0.0/16 -> 0.0.0.0 eth0 mtu 0,0.0.0.0/0 -> 172.28.0.1 eth0 mtu 0 ]}}  nc{[ Transports: ETHERNET Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=100000Kbps LinkDnBandwidth>=100000Kbps Specifier: <EthernetNetworkSpecifier (eth0)> UnderlyingNetworks: Null]}  factorySerialNumber=1}
+--------- beginning of main
+11-23 20:38:44.677   696  1010 D NetworkMonitor: Starting on network 100 with capport HTTPS URL [https://connect.rom.miui.com/generate_204] and HTTP URL [http://connect.rom.miui.com/generate_204]
+Starting: Intent { cmp=lab.arm13.probe/.Probe }
+Status: ok
+LaunchState: COLD
+Activity: lab.arm13.probe/.Probe
+TotalTime: 121
+WaitTime: 122
+Complete

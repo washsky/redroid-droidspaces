@@ -1,0 +1,1 @@
+{"ok":true,"enabled":true,"revision":1,"activeRevision":1,"service":"running","packages":["lab.arm13.probe","lab.arm13.gpuprobe","mark.via","com.mmbox.xbrowser"],"configuredUids":[10079,10077,10080],"uids":[10079,10077,10080],"socketUid":2000,"installedConfig":true}

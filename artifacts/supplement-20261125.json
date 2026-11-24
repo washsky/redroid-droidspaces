@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "part": 2,
+  "title": "ARM64 ReDroid on Droidspaces: optional functionality supplement",
+  "date": "2026-11-25",
+  "timezone": "Asia/Shanghai",
+  "baseline_verified_commit": "fd3892d981dfe989a74a11a5523ff1d7a21d4fc4",
+  "publication_parent_commit": "5e86ebf937b78d48e92faa331db6594c2f79217f",
+  "scope": {
+    "runtime_target": "redroid13arm",
+    "redroid13repro": "frozen; no subsequent connection/read/write/restart",
+    "physical_host": "not rebooted; SELinux Enforcing",
+    "arch2": "not stopped or restarted",
+    "reproduction": "incremental deployment on existing successful ARM64 instance; not a fresh-data/full-AOSP rebuild"
+  },
+  "versions": {
+    "magisk": "31.1 (31100)",
+    "builtin_zygisk_enabled": false,
+    "native_bridge": "0",
+    "zygisk_next": "1.5.3 (880-22a1bf5-release)",
+    "lsposed": "2.2.1 (7912), framework API102",
+    "lsposed_input_trust": "user-supplied package; metadata is not release/signature authentication",
+    "scrcpy": "stock 5.0.1",
+    "manager": "versionCode3 / versionName1.2",
+    "ndk": "r29; native API33"
+  },
+  "input_archives_sha256": {
+    "Zygisk-Next-1.3.4-746-d1b76b3-release.zip": "b330b368e6133b83c069c0ff1bb1bf81091afec5a8d6532d39c14bd1b7e5d367",
+    "Zygisk-Next-1.5.3-880-22a1bf5-release.zip": "186a0a26c9fcb895af1954b42de831433c23d72d1bd0758b986069154359db67",
+    "LSPosed-v1.9.3-7244-zygisk-release.zip": "4f56f488c63bfc6baabd7c4d5b4fe7eac75b98895471361511847ba8c8e14d68",
+    "LSPosed-v2.2.1-7912-release.zip": "ed37de2d2097aa6ba871377e7bf4ac719b708484f9468928e6abae10ab311e74"
+  },
+  "observed_installed_sha256": {
+    "/system/lib64/libmagisk_container_context.so": "cbdaabc88bf1eaddffbb24eb38eb06680df02849b6521973017ac63124bb318c",
+    "/vendor/bin/arm13-magisk-daemon-guard": "31b7b1e99cf20553a7b014d325d11c986449f12acc49ceb828589e982d43dfc7",
+    "/vendor/bin/arm13-magisk-module-mounts": "9b94e0b7c5a81ae889fb5b52da02462efe1f7dc0839500dd8952bebebbb1c679",
+    "/vendor/bin/arm13-su-login": "2c0aae5d753cad638c0e1e47491ba26d8175daa06203e6a1d9c29c1c1656a714",
+    "/init.arm13-caps": "2098488e8af368b0987157968c89a8121af71eceaf237254aa2c6a9c9fbce9fd",
+    "/vendor/bin/arm13-proxyctl": "3a4fae326a7682e813d7b9913e9689b178b0cd6770451d692bc6679cad3b57b1",
+    "/vendor/bin/arm13-proxy-relay": "3557117a53a70aaf63cd72a90df0731ac812f510d38b28db68d983aa003a16ab",
+    "/vendor/bin/arm13-bootctl": "55914d615143da3aee611d996f78296371504bcb9331fd877447e7e29e9e6772",
+    "/vendor/lib64/libqcodec2_v4l2codec.so": "c72860fed914989457ea55a8f046325ada2f4307995711575755fcff65de21dd"
+  },
+  "qti_default_patch": {
+    "input_sha256": "e5afb835a68b970cab4e0cb9197607b6fabbeeca5f5c83cbda9138add5549d0c",
+    "output_sha256": "c72860fed914989457ea55a8f046325ada2f4307995711575755fcff65de21dd",
+    "architecture": "AArch64 only",
+    "instruction_offset": "0x7cc6c",
+    "vendor_parameter_default": "INT_MAX -> 1; explicit setter retained"
+  },
+  "manager_apk_observed_sha256": "fc58696cfaea61be5b1806dd9c5f0ab2aef573e9dfbfab1c73bbc07a245fdb4a",
+  "final_state": {
+    "modules_ready": "1",
+    "terminal_ready": "1",
+    "lsposed": {
+      "daemonRunning": true,
+      "systemServerRequested": true,
+      "safeMode": false,
+      "apiVersion": 102,
+      "installedModules": 0
+    },
+    "display": {
+      "width": 720,
+      "height": 1280,
+      "dpi": 320,
+      "fps": 60,
+      "pending": false
+    },
+    "proxy": {
+      "enabled": true,
+      "protocol": "socks5",
+      "udp": false,
+      "dns": false,
+      "auth": false,
+      "active": true
+    },
+    "relay_uid": 2000,
+    "relay_effective_caps": "0000000000000000",
+    "init_effective_caps": "000001deffecffff",
+    "seccomp": 2,
+    "seccomp_filters": 1,
+    "uid_mapping": "0 0 4294967295 (no root UID remapping)"
+  },
+  "video_qa": {
+    "encoder": "c2.qti.avc.encoder",
+    "decoder": "vaapi",
+    "size": [
+      720,
+      1280
+    ],
+    "center_crop_fraction": 0.6,
+    "mae_rgb_0_255": 1.343,
+    "reference_rgb_std": [
+      44.15,
+      49.75,
+      0
+    ],
+    "decoded_rgb_std": [
+      44.16,
+      49.76,
+      1.2
+    ]
+  },
+  "limitations": [
+    "UID broker remains required",
+    "x86 not reproduced",
+    "32-bit ABI not validated",
+    "no generic sepolicy.rule support",
+    "no real proxy authentication account tested",
+    "no third-party Xposed hook business validated",
+    "no one-hour endurance or game login/automation",
+    "no complete clean-source AOSP rebuild or fresh-data deployment of this supplement",
+    "vendor/module/APK binaries and private authorization data not distributed"
+  ],
+  "evidence": "evidence/2026-11-25-supplement/README.md",
+  "current_source_sha256": {
+    "config/arm13-boot.conf.example": "282a38cb1f2bfb326bedb1ee9719845b4f8ca4055a37f3907dd49b87e972a49a",
+    "config/bin/arm13-magisk-stage": "58fcdfd86e63e72e610870ecdb78eff233d5460aa60963887ae7b89ad068117c",
+    "config/bin/arm13-magisk-start": "fcce2402cd22a113c4330522586f106077ca395444353403b4fcea207b8a91c8",
+    "config/bin/arm13-terminal-setup": "2c49a1bc7eb1adffac78f496be79a2a44df379512d661c52d4a74c2c63200e5d",
+    "config/init/arm13-proxy.rc": "17dd87e275b4e5b5b22842ff790a19686c663aea98e9bd488c2ce5cbaf234d4f",
+    "config/init/init.zygote64-next.rc": "f0e57fac7b73cde97b1d8be18ca1985c065ea2c08476690584e13f1541c586a5",
+    "config/init/redroid-magisk.rc": "bb9cb621ae72124794c5113922581045f4850a1e9cf8e53561e84b902d0661c0",
+    "scripts/build-native.sh": "9507c22c2b7252c940fff9f3962af61a18cf924900c1dd33661baddf3729ba72",
+    "scripts/build-netmanager-apk.sh": "3f06d29fb44010f45cd0ac2b3529abfd291a8998a740867437d56ae5687afcf6",
+    "scripts/build-zygisk-probe.sh": "f59ff9c73a0995bc5cf2d36d847facfb5085ad3b797544546c0bd89ee64488a3",
+    "scripts/patch-qti-linear-default.py": "bd2d5a1def320551154fd7753d53f75ecd4dce6b7af32c695028d0201c8dcab2",
+    "src/netmanager/AndroidManifest.xml": "c63895eb60e51a146a14770c8ff997326f6d33232292cfc982953bb405d7c04b",
+    "src/netmanager/MainActivity.java": "481fec56581805e50768c04640f529463e5fe10b70cde3998f94c7e22be39d42",
+    "src/netmanager/bootctl.c": "d81a2beb09b6fe84e5e54aefe6339b519794e43894cf0791de4e772d8cfc175a",
+    "src/netmanager/common.h": "c5f979d8786618f8bed9c7c5291c2a5972a259d7cfea7b767c674a6e154dec8e",
+    "src/netmanager/netbroker.c": "3d3af7c700797ad7703bc88c4726536817750bbd1fa21346938946ec20241fbc",
+    "src/netmanager/netctl.c": "a9f32a32926c7d49cb4a35543dafbcc9657d4ae8ac41bf00198b05fc0cc4e5e1",
+    "src/netmanager/preload.c": "e9f46b8a652afe483992d096ae75df32f226af2408b82993eec32c8bfb9d3a75",
+    "src/netmanager/proxy-common.h": "7d5b1d3d70db2542ff2dc2df5fb058684f2a98e7b8213410383154bcf2625209",
+    "src/netmanager/proxy-relay.c": "e824187e5fa2ba70da22d38fb0c443e3a5f89c7760f55395875f25261f665f77",
+    "src/netmanager/proxyctl.c": "1362dd3b46fe5ac50e004d9cc9cbcd8344f207471fc806ca11e0ac16c7150501",
+    "src/netmanager/res/drawable/ic_launcher.xml": "d8cbcdc6b525117835dbb416df190f46154330b89ab3dc8173200fea39220ec1",
+    "src/netmanager/res/values/styles.xml": "39d3a7561ff339a0fc936329a7ff9ea9f7491c962115ffbb56b5e43b29564f10",
+    "src/probes/zygisk/fd-transport.c": "2a199c9f770a6bc2c7c5f10659c36d64587cbb48cde19568aa069a291c937daa",
+    "src/probes/zygisk/module.cpp": "460089cf57c549360c3aef2e670827c95b1964509705f3ec35f4b096168d1b42",
+    "src/probes/zygisk/peer-negative.c": "da95ff6dd920a0108ae11580b7228d9629a9416eccfdb4784f1bf98df8edffa3",
+    "src/probes/zygisk/zygisk.hpp": "4abeb9a97c9a3c43b35c7cf1737e76c0b5c808119dbc954b45b20c1a37e2250b",
+    "src/root/RootProbe.java": "53a3a4ad0bd9116de5dc9034e270effe88373e0fb5fa7a5754b93473d6cab178",
+    "src/root/cap-init.c": "df993ce03215cfd9d571bae7e474832cb9e223cbef7594f05162bb7433593373",
+    "src/root/magisk-context-guard.c": "925cd1b113ce799cfff219ff8421051201ae15ce795e607a8c858eaf6ca932d5",
+    "src/root/magisk-daemon-guard.c": "3df70bf36b8c6de1a24a95f9514fa11982569d91df532ad639922777a36e728e",
+    "src/root/magisk-login-compat.c": "1554881662789db4458dabca5a4e37d1ad213f9bfd84e6b62b564bc2dc4e16f7",
+    "src/root/magisk-module-mounts.c": "ee57a339c51df402cb85a642def34a0f0668472daa8174b4c69b93cbd6ec8daa",
+    "config/container.arm13-part2.example.conf": "837fc3058d969d07130d52b7d09ac63bea0fcc2de8cafd847ec3b1ab414f7896"
+  }
+}

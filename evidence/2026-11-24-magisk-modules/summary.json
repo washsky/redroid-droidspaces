@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-24",
+  "target": "redroid13repro",
+  "base_commit": "fd3892d981dfe989a74a11a5523ff1d7a21d4fc4",
+  "all_pass": true,
+  "checks": {
+    "module_ready": true,
+    "frontend_zip_install": true,
+    "frontend_action": true,
+    "enabled_scripts_twice": true,
+    "uid_application_namespace_file_read": true,
+    "disabled_no_additional_scripts": true,
+    "uninstalled_and_script_ran": true,
+    "https_shared_memory": true,
+    "gpu_ahb": true,
+    "gralloc": true,
+    "no_external_shared_peers": true,
+    "network_validated": true,
+    "probe_rebuild_payloads_match": true,
+    "empty_modules_frontend_retained": true,
+    "sensitive_mounts_readonly": true,
+    "protected_starttimes": true,
+    "host_https_enforcing": true
+  },
+  "cold_boots": 4,
+  "final_target_host_pid": 15310,
+  "final_core_pids": {
+    "system_server": 488,
+    "zygote64": 317,
+    "netd": 316
+  },
+  "test_module_removed": true,
+  "zygisk_supported": false,
+  "custom_sepolicy_supported": false,
+  "script_package_state": "com.awcocxb disabled-user on new target to prevent auto-run"
+}

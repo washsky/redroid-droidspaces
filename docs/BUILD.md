@@ -82,3 +82,13 @@ cp -a /path/to/repo/patches/mesa/new-files/. mesa/
 - 这次整理验证的是补丁可应用、辅助代码可构建和远端提交完整；**未在空白机器上重新跑完 AOSP 全编译、打包和整机部署**。
 
 下一步若制作可公开分发镜像，应在独立干净目录重放全部步骤、形成完整 provenance 和二进制依赖清单，再验收，不能直接发布当前含个人 /data 的镜像。
+
+## 第二部分小工具构建（2026-11-25）
+
+核心AOSP/Mesa输入不变。[补充部署清单](part2/REPRODUCTION_AND_VALIDATION.md)记录新增root/module/PTY/cap-init/proxy/bootctl工具、Next专用zygote配置、API5回调探针和管理器v1.2。脚本只构建，不部署。
+
+build-netmanager-apk.sh现在支持独立ANDROID_BUILD_TOOLS+ANDROID_JAR，或原AOSP_ROOT。SIGN_CERT/SIGN_KEY仍必填；不提交私钥。管理器继承preload的修复保留。
+
+第二部分最终stock scrcpy不需要构建定制server；build-scrcpy-server.sh和旧launcher保留为历史分支。QTI默认值补丁只接受精确原库SHA256，见第二部分。
+
+本轮补充关键native以-Wall -Wextra -Werror构建通过，真实部署与验收在arm完成。发布文档时的本地重建/测试与设备历史验收分开记录；没有重新跑整套AOSP，也没有复测冻结repro。

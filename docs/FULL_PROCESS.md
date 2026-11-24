@@ -1,4 +1,6 @@
-# 完整过程与复现指南
+# 第一部分：Droidspaces 运行 ReDroid 核心复现
+
+> **第一部分核心复现。** 本页保留早期成功基线。Magisk完整化、Next/LSPosed、stock scrcpy、显示/终端及统一代理见[第二部分](PART2_SUPPLEMENT.md)，无需把它们全设为首次启动的前置条件。后文full权限、root-only、FD wrapper和定制投屏均有阶段范围。
 
 目标是在真机 Android 上由 Droidspaces 运行 Android 13 ARM64 容器，并让普通应用、浏览器、网络、root、GPU 与投屏形成可使用组合。当前验证对象是 mondrian / SM8475 / Adreno 730。其他 ROM/内核需要重新验收。
 

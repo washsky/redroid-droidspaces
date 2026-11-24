@@ -4,7 +4,15 @@
 
 这不是通用刷机包，也不是已清空数据的可分发系统镜像。仓库记录了已经在真机跑通的组合，保留硬件、内核、厂商库和安全隔离方面的适用条件。
 
-## 当前结果
+## 第一部分：核心复现
+
+本项目的核心是 **Droidspaces 成功运行 ARM64 ReDroid，以及必要的基础环境配置**。先完成启动、DHCP、普通应用、联网兼容和所需图形栈；下文保留这一成功基线及历史验收。
+
+第一部分已验证基准提交为[fd3892d](https://github.com/washsky/redroid-droidspaces/tree/fd3892d981dfe989a74a11a5523ff1d7a21d4fc4)。需要重放当时完整源码/配置时可单独检出该版本；当前main同时收录后续补充源码。核心配置仍用config/container.example.conf，第二部分另用config/container.arm13-part2.example.conf，不把cap-init设为核心首次启动的前置条件。
+
+Magisk 深入完整化、Zygisk/Xposed、原版 scrcpy 优化、统一代理和管理前端增强归入独立的第二部分，不是首次启动 Android 的前置条件。
+
+### 核心结果
 
 | 功能 | 实际验收 | 边界 |
 |---|---|---|
@@ -12,10 +20,10 @@
 | 普通 APK | 安装、私有存储、SharedMemory、HTTPS 200 | 默认 TLS 校验保留 |
 | 普通应用联网 | 游戏到登录入口；TCP/UDP；网络曾获得 VALIDATED | 通过 UID socket broker；原生应用 UID 直连隔离仍有缺口 |
 | UID 网络管理前端 | Android 原生管理 APK，多包选择、保存、状态与重启 | 包名动态解析 UID；需容器内 root |
-| Root | 容器内 Bootless Magisk 31.1 | 没有修补宿主 boot；不是完整 Magisk 模块环境 |
+| Root | 容器内 Bootless Magisk 31.1 基础 root | 完整模块与 Zygisk/LSPosed 为[第二部分补充](docs/PART2_SUPPLEMENT.md) |
 | GPU | Mesa Turnip/KGSL、ANGLE、HWUI skiavk | 不是只看 GPU 使用率；不等于全部应用/格式已兼容 |
 | H.264 / H.265 | QTI YUV 硬件编解码探针 | 每类 30 帧的历史验收 |
-| scrcpy H.264 Surface 硬编 | 自定义 server + 线性输入 Surface + QTI 私有 Vulkan 路径 | 有额外 GPU 中间处理；不是零拷贝保证 |
+| scrcpy H.264 Surface 硬编 | 早期定制 server + 线性 Surface；arm 后续支持 stock server | [第二部分](docs/part2/SCRCPY_TERMINAL_DISPLAY.md)记录免定制改进；不是零拷贝保证 |
 | Via / X 浏览器 | 页面、WebGL 2、滚动、点击、输入、HTTPS | 修复 QTI Gralloc 漏解锁后验收 |
 | 脚本应用 | root 截屏/虚拟显示、配置页、停止操作 | 无障碍需开启；未验收自动游戏流程 |
 | 存储 | 6 GiB → 12 GiB，离线文件系统检查通过 | 余量随应用数据变化，见状态快照 |
@@ -24,7 +32,19 @@
 
 2026-11-24 已新增一个空数据独立容器，复用产物完成首次部署与冷启动验收，并修复公开构建的管理 APK 的预加载命名空间问题：[实际复现结果](docs/REPRODUCTION_20261124.md) · [跳过大型编译的步骤](docs/PREBUILT_REPRODUCTION.md)。
 
-## 阅读入口
+## 第二部分：功能补充与兼容性探索
+
+2026-11-24/25 在原成功环境 redroid13arm 上追加；redroid13repro 保留早期独立部署/基础模块验收，**现已冻结，未同步后续改进**。
+
+- **[第二部分总览、范围与实例状态](docs/PART2_SUPPLEMENT.md)**
+- **[重点：Magisk 完整化与 Zygisk Next 1.5.3 + LSPosed 2.2.1](docs/part2/MAGISK_ZYGISK_LSPOSED.md)**：安装、身份/命名空间、SCM_RIGHTS、noexec、真实回调，以及给 x86 的排障检查表。
+- [原版 scrcpy、终端、显示启动参数与能力收紧](docs/part2/SCRCPY_TERMINAL_DISPLAY.md)
+- [UID 管理器 v1.2、统一 TCP/UDP/DNS 代理和认证](docs/part2/PROXY_AND_MANAGER.md)
+- [补充部署、验证与回退](docs/part2/REPRODUCTION_AND_VALIDATION.md)
+
+最终 arm 已验证 Next1.5.3（880-22a1bf5）+ 用户提供的 LSPosed2.2.1（7912）、stock scrcpy5.0.1 QTI编码/VAAPI解码、终端PTY、init显示参数和可选代理。**没有复测 x86、没有实际第三方 Xposed 业务 hook，也没有一小时耐久**；普通应用仍依赖 UID broker。详情和输入/运行哈希见[脱敏摘要](evidence/2026-11-25-supplement/README.md)与[产物清单](artifacts/supplement-20261125.json)。
+
+## 第一部分详细阅读入口
 
 1. [完整过程与复现指南](docs/FULL_PROCESS.md)
 2. [维护者 / 下一位 AI 交接](docs/HANDOFF.md)
@@ -55,12 +75,12 @@
 
 ## 重要适用条件
 
-- 当前实验使用 `privileged=full`、宿主侧已有的容器 SELinux 兼容策略，以及 `persist.zygote.app_data_isolation=false`。宿主 `getenforce` 保持 Enforcing，**不能因此声称容器隔离与原生 Android 安全等价**。
+- 第一部分基线曾使用 `privileged=full`；第二部分 arm 改为 `nocaps` + 自定义 init 删五项能力，仍无 root UID 映射、仍保留36项能力，并非最小权限或真正非特权 userns。宿主侧已有的容器 SELinux 兼容策略及 `persist.zygote.app_data_isolation=false` 仍是边界。宿主 `getenforce` 保持 Enforcing，**不能因此声称容器隔离与原生 Android 安全等价**。
 - 不要全局关闭 SELinux、解绑宿主 cgroup eBPF、清空防火墙，或暴露全部宿主设备。
 - 本仓库不包含厂商 GPU/Codec blobs、WebView APK、Magisk APK、密钥、账号数据或完整 rootfs。需要从自己的合法环境取得并核对版本。
 - QTI Gralloc 二进制修补只接受一个精确 SHA256，输出到新文件；不是可套用到其他手机的通用偏移补丁。
 - 旧交接中的“骁龙 7+ Gen 2”“仍全程 SwiftShader”“DHCP 源码补丁未部署”等结论已经过时；本仓库以实际文件和分阶段验收为准。
 
-整理日期：2026-11-24（Asia/Shanghai）。实际功能验收主要完成于 2026-11-21 至 2026-11-23。
+整理更新：2026-11-25（Asia/Shanghai）。第一部分核心验收主要完成于 2026-11-21 至 11-24；第二部分增量验收完成于 11-24/25。
 
 <img src="evidence/image.png" alt="redroid运行补充" width="">

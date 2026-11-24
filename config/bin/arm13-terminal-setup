@@ -1,0 +1,25 @@
+#!/system/bin/sh
+set -eu
+[ "$(id -u)" = 0 ] && [ "$(getprop ro.product.device)" = redroid_arm64_only ] || exit 2
+[ -x /vendor/bin/arm13-su-login ] || exit 2
+if [ -d /bin ] && [ ! -L /bin ]; then
+    [ "$(readlink /bin/su)" = /vendor/bin/arm13-su-login ] || exit 3
+    echo TERMINAL_COMPAT_ALREADY_INSTALLED=1
+    exit 0
+fi
+[ "$(readlink /bin)" = /system/bin ] || exit 3
+[ ! -e /bin.arm13-original-link ] && [ ! -L /bin.arm13-original-link ] || exit 3
+target=/bin.arm13-new.$$
+mkdir "$target"
+trap 'rm -rf "$target"' EXIT
+for path in /system/bin/*; do
+    ln -s "$path" "$target/${path##*/}"
+done
+ln -sf /vendor/bin/arm13-su-login "$target/su"
+chmod 0755 "$target"
+mv /bin /bin.arm13-original-link
+if ! mv "$target" /bin; then
+    mv /bin.arm13-original-link /bin
+    exit 4
+fi
+echo TERMINAL_COMPAT_INSTALLED=1

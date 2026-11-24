@@ -1,0 +1,20 @@
+#!/system/bin/sh
+set -eu
+case "${1:-}" in
+ wait)
+  n=0
+  while [ "$n" -lt 55 ]; do
+   state=$(getprop sys.arm13.magisk.modules_ready)
+   [ "$state" = 1 ] && exit 0
+   [ "$state" = failed ] && exit 1
+   sleep 1
+   n=$((n+1))
+  done
+  exit 1
+  ;;
+ service|boot-complete)
+  [ "$(getprop sys.arm13.magisk.modules_ready)" = 1 ] || exit 1
+  exec /sbin/magisk "--$1"
+  ;;
+ *) exit 2 ;;
+esac

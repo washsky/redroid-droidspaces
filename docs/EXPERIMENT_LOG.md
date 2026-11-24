@@ -54,3 +54,20 @@
 ## 2026-11-24 独立空数据部署验收
 
 在相同真机新增 redroid13repro，复用编译产物重放仓库配置和补丁；完成首次部署、一次冷启动及 HTTPS、GPU、Gralloc、H264 Surface、浏览器和网络管理器验证。修复前端控制命令继承 LD_PRELOAD 的问题。原容器和 arch2 未重启。实际范围与保留问题见 [本轮复现报告](REPRODUCTION_20261124.md)。
+
+## 2026-11-24/25：第二部分补充探索
+
+核心运行结果保持；下列能力按[第二部分](PART2_SUPPLEMENT.md)单独记录，不提升为首次启动前置条件。
+
+1. 用户指出Magisk缺少模块目录/前端；确认root-only启动不足，补齐官方模块阶段与受限挂载导出，在repro完成早期基础模块生命周期验收。
+2. 用户随后授权arm部署并仅冷启动arm；补齐内置Zygisk身份兼容和真实回调，不能由外部Next早期失败推断“外部Zygisk一律不支持”。
+3. 安装LSPosed/Next暴露安装器临时执行目录与/dev noexec问题；保留真实设备及syscall错误，不制造设备或伪造成功。
+4. Next1.5.3进一步涉及静态FD wrapper、init/zygote IPC身份、内核socket SID的SCM_RIGHTS、早期argv时序和载荷PROT_EXEC映射。逐层修正后，与LSPosed2.2.1获得真实回调和system_server接入。
+5. Droidspaces交互终端修复su登录参数与Magisk私有PTY视图。原版scrcpy先用显式QTI linear选项，后修正容器内编码器默认值，最终不再依赖定制server。
+6. 在arm保留mask/seccomp、full改为nocaps加自定义init删除五项能力；默认九项裁剪曾使Next失败，尚未逐项最小化或建立root UID映射。
+7. init显示参数外置到/data/adb/arm13-boot.conf；真实冷启动不同分辨率/刷新率后恢复基准，再将编辑器集成到管理APK。
+8. 统一代理从TCP扩展到可选SOCKS5 UDP和DNS over TCP、认证。UDP REDIRECT不能取得原目标，改为仅arm网络namespace中的TPROXY；实际多目标回包和故障阻断通过。
+9. UID管理器v1.2把应用名单移到独立页，验证滚动和保存；新增UDP/DNS/认证结束时关闭，保留既有TCP出口与broker名单。
+10. 用户在最后授权统一写记录并推送；发布前只读复核arm和保护对象，没有解冻repro，也没有再运行游戏/一小时耐久。
+
+用户提及x86曾在Zygisk/LSPosed失败，本轮只提供分层排障参考，不把ARM64成功写成x86成功。最后LSPosed第三方模块count0；认证仅模拟正反例，无真实账号业务验收。

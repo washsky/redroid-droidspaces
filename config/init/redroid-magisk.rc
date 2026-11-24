@@ -7,3 +7,27 @@ service redroid.magisk /vendor/bin/arm13-magisk-start
 
 on post-fs-data
     start redroid.magisk
+    exec_start redroid.magisk.wait
+
+service redroid.magisk.wait /vendor/bin/arm13-magisk-stage wait
+    class core
+    user root
+    group root
+    disabled
+    oneshot
+
+service redroid.magisk.late /vendor/bin/arm13-magisk-stage service
+    class late_start
+    user root
+    group root
+    oneshot
+
+service redroid.magisk.complete /vendor/bin/arm13-magisk-stage boot-complete
+    class core
+    user root
+    group root
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start redroid.magisk.complete

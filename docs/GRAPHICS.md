@@ -1,5 +1,7 @@
 # GPU、Gralloc 与硬件视频
 
+> **阶段说明：** 本页保留核心GPU/Gralloc与早期定制scrcpy路径。arm后续已让stock scrcpy默认参数使用QTI线性布局，见[第二部分](part2/SCRCPY_TERMINAL_DISPLAY.md)；这些改进未同步到冻结repro。
+
 ## 两条 Vulkan 路径
 
 | 进程 | 路径 | 原因 |
@@ -58,7 +60,7 @@ linear-window.c 使用 API33平台 ANativeWindow_setPerformInterceptor，转发�
 
 Codec 兼容目录包含部分平台兼容库、插件兼容 stub和厂商动态库；见 artifacts/hashes.json / REPRODUCIBILITY_GAPS.md。库存在并不说明可以从任意 Android15 ROM混装。
 
-## 定制 scrcpy
+## 定制 scrcpy（历史兼容路径）
 
 ```bash
 git clone https://github.com/Genymobile/scrcpy.git "$SCRCPY_SRC"

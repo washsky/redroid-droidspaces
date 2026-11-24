@@ -2,6 +2,11 @@
 set -e
 # Container-only Bootless Magisk. Never load SELinux policy or patch boot.
 SRC=/system/etc/arm13-magisk
+# Break propagation to the host in the container init namespace before any
+# module overlays are exported. The daemon retains its separate guarded ns.
+/vendor/bin/arm13-magisk-module-mounts prepare
+setprop sys.arm13.magisk.modules_ready 0
+setprop sys.arm13.magisk.terminal_ready 0
 mkdir -p /sbin
 if ! grep -q ' /sbin .* - tmpfs magisk ' /proc/self/mountinfo; then
  mount -t tmpfs -o mode=0755,nosuid,nodev magisk /sbin
@@ -16,15 +21,37 @@ ln -sf magisk /sbin/su
 ln -sf magisk /sbin/resetprop
 mkdir -p /data/adb/magisk
 chmod 0700 /data/adb
+mkdir -p /data/adb/arm13-next-exec
+chmod 0700 /data/adb/arm13-next-exec
 chmod 0755 /data/adb/magisk
 for F in magisk magiskboot magiskinit busybox util_functions.sh boot_patch.sh magiskpolicy; do
  cp "$SRC/$F" "/data/adb/magisk/$F"
  if [ "$F" = magiskpolicy ]; then chmod 0644 "/data/adb/magisk/$F"; else chmod 0755 "/data/adb/magisk/$F"; fi
 done
-# No --post-fs-data/modules/Zygisk; root management only.
+# Native module installer helpers must run outside Android's noexec /dev.
+# /data/adb already has mode 0700; preserve the standard installer lifecycle.
+sed -i 's|^TMPDIR=/dev/tmp$|TMPDIR=/data/adb/arm13-magisk-install-tmp|' /data/adb/magisk/util_functions.sh
 /system/bin/timeout -s KILL 10 /vendor/bin/arm13-magisk-daemon-guard
 
 DAEMON_PID=$(pidof magiskd)
 [ -n "$DAEMON_PID" ] || exit 1
+# Only the init-owned daemon is accepted. Module callbacks run through the
+# official binary; no host boot patching or policy loading is performed.
+[ "$(echo "$DAEMON_PID" | wc -w)" = 1 ] || exit 1
+cat "/proc/$DAEMON_PID/mountinfo" > /sbin/.magisk/arm13-baseline-mountinfo
+if /system/bin/timeout -s KILL 45 /sbin/magisk --post-fs-data &&
+   [ -x /sbin/.magisk/busybox/busybox ] &&
+   /vendor/bin/arm13-magisk-module-mounts export "$DAEMON_PID" /sbin/.magisk/arm13-baseline-mountinfo > /data/adb/arm13-module-mounts.log 2>&1; then
+ if /vendor/bin/arm13-magisk-module-mounts repair-pty "$DAEMON_PID"; then
+  setprop sys.arm13.magisk.terminal_ready 1
+ else
+  setprop sys.arm13.magisk.terminal_ready failed
+ fi
+ setprop sys.arm13.magisk.modules_ready 1
+else
+ # Preserve working root and allow Android to boot if module preparation
+ # fails; the explicit failure state must never be reported as module-ready.
+ setprop sys.arm13.magisk.modules_ready failed
+fi
 while kill -0 "$DAEMON_PID" 2>/dev/null; do sleep 5; done
 exit 1

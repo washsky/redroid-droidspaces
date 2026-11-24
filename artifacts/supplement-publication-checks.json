@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-25",
+  "timezone": "Asia/Shanghai",
+  "part": 2,
+  "checks": {
+    "native_werror": "8 critical helpers/libraries built locally; no deployment",
+    "zygisk_probe": "ARM64 shared library, negative and FD probes compiled; deterministic ZIP contents checked; new packaging not installed",
+    "manager_v1_2": "SDK build and signing succeeded; no deployment in documentation turn",
+    "transport": "actual C fragmented SOCKS5/HTTP, rejection, bidirectional 2MiB/backpressure/half-close passed",
+    "authentication": "SOCKS5 and HTTP mock acceptance/rejection passed; no real account",
+    "script_syntax": "bash -n and Python ast passed",
+    "documentation_links": "local relative Markdown links and code-fence balance passed",
+    "public_content_scan": "checked public files; no credentials, keys, account paths or device serials",
+    "native_rebuild_hashes": "all 8 critical locally rebuilt ELF outputs exactly match the observed installed SHA256 values",
+    "documentation_bash_syntax": "bash -n passed all Bash code blocks in new supplement documents"
+  },
+  "preserved_remote_file": {
+    "path": "evidence/image.png",
+    "git_blob_sha1": "ac51ef5b735098d4938ef2ef2b4aed7dd6e777b0",
+    "size": 132823,
+    "action": "inherit unchanged from GitHub parent tree; no local binary re-upload"
+  },
+  "not_run": [
+    "device restart/deployment in this documentation turn",
+    "repro inspection or connection",
+    "fresh-data/full-AOSP reproduction of supplement",
+    "x86 validation",
+    "real proxy credential or Xposed business hook",
+    "one-hour endurance or game automation"
+  ]
+}

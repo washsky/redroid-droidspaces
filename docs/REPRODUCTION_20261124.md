@@ -1,5 +1,7 @@
 # 2026-11-24 真机独立容器复现验收
 
+> **历史验收快照。** 本页数据不随arm后续变化改写；redroid13repro现已冻结。Magisk/Next/LSPosed和stock scrcpy等后续arm成果见[第二部分](PART2_SUPPLEMENT.md)。
+
 结论：在原 `redroid13arm` 与 `arch2` 继续运行的条件下，新增 `redroid13repro`，完成空数据部署、首次启动、一次完整停止/卸载/启动，以及核心功能复测。不是仅克隆现用数据，也不是从零编译验收。
 
 基线仓库提交：`e7cd34f0e6098a03c116cf7e00673556cc4483fb`。Debian 上 Git clone 出现 GnuTLS 接收错误，改用已发布的本地文件副本；110 个文件的 Git blob SHA 与 GitHub 当前树全部一致。因此文件内容核对通过，不能称这次 Git clone 传输已通过。

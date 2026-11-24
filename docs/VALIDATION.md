@@ -79,3 +79,7 @@ TLS https://example.com/ HTTP 200 bytes=128 TLS_AES_128_GCM_SHA256
 仅停止目标、确认镜像卸载、重新挂载启动，然后复核system_server/Zygote/netd、DHCP、代理配置、WebView、浏览器、硬编。保护容器PID/starttime、宿主HTTPS与Wi-Fi ADB应保持正常。
 
 本轮历史验收没有执行一小时耐久测试、自动游戏脚本或登录后游戏业务。以后执行时新增日期和结果，不覆盖历史记录。
+
+## 第二部分补充验收
+
+Next/LSPosed真实回调、终端PTY、显示参数、stock scrcpy、代理UDP/DNS/认证的独立判据见[补充验证清单](part2/REPRODUCTION_AND_VALIDATION.md)。不要把核心启动通过等同于这些可选能力通过；repro冻结，不用本页命令连接它。

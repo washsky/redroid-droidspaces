@@ -1,6 +1,31 @@
 # 接手与维护记录
 
-整理于 2026-11-24。开始前读 STATUS.md，区分历史验收与当前状态。
+更新于2026-11-25。先读[第二部分总览](PART2_SUPPLEMENT.md)及STATUS.md；本页后面的早期验收按时间保留。
+
+## 当前接手优先事项
+
+- 核心仍是[第一部分运行ReDroid](FULL_PROCESS.md)；深入Magisk、Next/LSPosed、stock投屏与代理属于第二部分补充。
+- redroid13arm是后续授权实验目标，已集成Magisk模块完整化、Next1.5.3+LSPosed2.2.1、终端PTY、stock scrcpy、显示参数及代理v1.2。
+- **redroid13repro冻结**：直到用户再次明确授权，不连接、读取、修改或重启；不运行对它的inspect脚本，也不以保护检查为由查询它。
+- 不重启真机，不停止或重启arch2；不全局操作ADB、SELinux、BPF、防火墙。
+- arm只在被授权任务需要时冷启动；重新核实PID/starttime、UID、netns、连接和窗口，历史PID不用作命令参数。
+- 本地项目已迁入android-lab；不要向ai-lan-gateway放任何项目临时文件。目录通过lab.env定位，不把个人路径写入公开步骤。
+- 本轮前用户要求暂缓写交接；现在已明确要求统一整理发布。不要把整理文档当成重新部署或解冻repro的授权。
+
+| 当前arm关键点 | 状态/入口 |
+|---|---|
+| Magisk/Next/LSPosed | 31.1、1.5.3(880-22a1bf5)、2.2.1(7912)/API102；内置Zygisk关闭 |
+| 早期注入 | init.zygote64-next.rc直接app_process；context guard对版本化请求做窄范围兼容 |
+| 模块/终端 | modules_ready=1、terminal_ready=1；动态挂载/PTY边界见第二部分 |
+| 显示 | /data/adb/arm13-boot.conf；720×1280/DPI320/60Hz；bootctl仅保存下次启动 |
+| 权限 | nocaps + /init.arm13-caps删五项；36项能力、seccomp保留，无root UID映射 |
+| 网络 | broker仍必需；统一SOCKS5 TCP开启，UDP/DNS/认证关闭；v1.2管理APK |
+| 投屏 | stock5.0.1 server默认QTI编码；--hwdec=vaapi仅电脑端；不再要求定制连接脚本 |
+| 产物/证据 | [清单](../artifacts/supplement-20261125.json)、[摘要](../evidence/2026-11-25-supplement/README.md) |
+
+发布前只读复核：框架daemon/system_server接入、配置与关键哈希保持。没有重启容器或查询repro来写文档。LSPosed第三方模块count0，x86/业务hook/一小时耐久未验收。
+
+下面的“原容器未部署”“full”“Zygisk未支持”只描述相应历史阶段，不是上述arm当前状态。
 
 ## 不要重新开始整个实验
 
@@ -72,3 +97,11 @@ libandroid_runtime 和 ipconfigstore 已与 Ubuntu out 目录产物再次比对�
 ## 2026-11-24 独立复现追加
 
 新增目标 redroid13repro，12 GiB，NAT 172.28.41.37，转发15614，run_at_boot=0。原 redroid13arm 与 arch2 保持运行。复用已有 system/vendor，重建空 data 并重新安装测试 APK；首次部署和一次冷启动的 HTTPS、GPU、Gralloc、H264 Surface、浏览器与管理器通过。新管理 APK 修复了控制进程继承 LD_PRELOAD 的问题，仅部署到新目标。详情及限制以 [复现报告](REPRODUCTION_20261124.md) 和 [装配指南](PREBUILT_REPRODUCTION.md) 为准。不要因新增目标而混用原容器的 UID、Binder 节点和端口。
+
+## 2026-11-24 Magisk 模块追加
+
+用户指出模块目录和前端缺失后，已把 redroid13repro 从 root-only 补齐至基础模块流程。官方初始化自动生成目录，前端ZIP安装/Action/禁用/移除与冷启动生效已验证；测试模块已卸载。源码新增 arm13-magisk-module-mounts.c、arm13-magisk-stage 和可重建的自测ZIP生成器，原容器未部署。详见 [模块验收](MAGISK_MODULES_20261124.md)。
+
+本轮最终目标host init PID15310、内层system_server488/zygote317/netd316，只是最后一次快照，后续仍须重核。原redroid13arm PID24174/starttime6353308、arch2 PID19643/starttime135633保持。新容器脚本包com.awcocxb冷启动曾自行显示倒计时，因此仅在新容器暂时disabled-user并停止，避免自动流程；数据未删除，后续按用户需要再启用。
+
+当前本地代码是在fd3892d基准之上的新增修改，尚未提交/推送；本地副本没有.git。UID broker依赖、厂商来源、完整重建和长期稳定性边界均未改变。

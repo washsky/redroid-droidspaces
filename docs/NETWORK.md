@@ -1,5 +1,7 @@
 # 应用 UID 网络缺口与管理器
 
+> **第一部分基础联网兼容。** 本页的broker仍必需。统一TCP/UDP/DNS出口、认证、管理器v1.2与独立应用页属于[第二部分](part2/PROXY_AND_MANAGER.md)，不等于原生UID直连修复。
+
 ## 定位结论
 
 最初 shell UID2000 可以连接公网443，普通应用 UID 超时。抓包在应用连接时看不到对应流量到 ds-br0；不是所有 TCP、DNS、IPv4-mapped IPv6 或 NAT 都坏了。
@@ -55,7 +57,7 @@ com.mmbox.xbrowser
 3. 将 arm13-netbroker / arm13-netctl 安装到 /vendor/bin，root:root 0755 / 0700。
 4. 将 libarm13_socketbroker.so 安装到 /system/lib64。
 5. 按 config/init/redroid-netbroker.rc 配置服务，创建合法初始 packages 文件。
-6. 在**现有 zygote service** 中合并 LD_PRELOAD；保留其他 preload 和原 FD wrapper。参考 init.zygote64.rc.reference，不覆盖整份设备特定 rc。
+6. 在**现有 zygote service** 中合并 LD_PRELOAD；保留其他 preload。原 FD wrapper只适用于历史分支；Next1.5.3使用init.zygote64-next.rc直接app_process，见第二部分，不能叠用。不要覆盖整份设备特定rc。
 7. 冷启动目标容器，安装 APK并仅授权需要 root 的管理器。
 8. 查询状态、勾选测试包、保存，观察 revision/activeRevision 一致。
 

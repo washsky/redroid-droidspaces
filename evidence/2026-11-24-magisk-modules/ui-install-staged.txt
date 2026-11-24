@@ -1,0 +1,8 @@
+-rw-r--r-- 1 root root 192 2026-11-24 09:50 /data/adb/modules_update/arm13_module_probe/module.prop
+id=arm13_module_probe
+name=ARM13 Module Lifecycle Probe
+version=1.0
+versionCode=1
+author=ARM13 lab
+description=Temporary local acceptance probe: marker, scripts, property and systemless file.
+-rw-r--r-- 1 root root 0 2026-11-24 09:50 /data/adb/modules/arm13_module_probe/update

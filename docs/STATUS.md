@@ -1,5 +1,22 @@
 # 状态与验收矩阵
 
+## 2026-11-25：第二部分当前状态
+
+第一部分仍是本项目核心；[第二部分](PART2_SUPPLEMENT.md)是成功基线上的可选补充。当前实例按以下范围解释，下文早期阶段记录不改写。
+
+| 对象/能力 | 当前验收 |
+|---|---|
+| arm | Magisk31.1 + Next1.5.3(880) + LSPosed2.2.1(7912)/API102；内置Zygisk关闭；真实回调与system_server接入 |
+| stock scrcpy | 5.0.1默认编码参数，QTI硬编/VAAPI硬解，720×1280像素MAE1.343 |
+| 终端/显示 | 交互PTY；init参数与v1.2前端，当前720×1280/DPI320/60Hz |
+| 权限 | nocaps+删五项，36项能力，无root UID映射；mask/seccomp保留 |
+| 代理 | IPv4 TCP；可选SOCKS5 UDP、DNS over TCP、认证；结束时UDP/DNS/认证关闭 |
+| 普通应用网络 | 仍依赖UID broker，不是原生UID直连修复 |
+| repro | 独立部署和早期基础模块验收历史；当前冻结，未同步后续补充 |
+| 未验收 | x86复测、真实认证账号、第三方Xposed业务hook、游戏登录/自动流程、一小时耐久、空源码全编译 |
+
+完整输入/二进制哈希：[补充清单](../artifacts/supplement-20261125.json)。总结取自实际验收，并在发布前对arm做只读复核；没有为写文档重新部署。
+
 ## 基准设备
 
 - 型号：23013RK75C；代号 mondrian。
@@ -44,3 +61,7 @@ Mesa 曾显示“Adreno 725 (0x07030002)”，属于驱动设备名映射，不�
 ## 2026-11-24 独立空数据部署验收
 
 在相同真机新增 redroid13repro，复用编译产物重放仓库配置和补丁；完成首次部署、一次冷启动及 HTTPS、GPU、Gralloc、H264 Surface、浏览器和网络管理器验证。修复前端控制命令继承 LD_PRELOAD 的问题。原容器和 arch2 未重启。实际范围与保留问题见 [本轮复现报告](REPRODUCTION_20261124.md)。
+
+## 2026-11-24 Magisk 基础模块补齐
+
+仅redroid13repro追加模块初始化与启动阶段、受限挂载导出。自动目录、Modules页面、官方CLI/前端ZIP安装、Action、启动脚本、system.prop、普通UID及应用namespace中的文件可见性、冷启动禁用和卸载均通过；测试模块已移除。过程做了四次新目标冷启动及离线只读fsck，原容器和arch2保持。Zygisk、自定义SELinux规则仍未支持；详情见[模块验收](MAGISK_MODULES_20261124.md)。

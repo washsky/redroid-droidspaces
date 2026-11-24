@@ -1,0 +1,13 @@
+service redroid.proxy /vendor/bin/arm13-proxy-relay
+    class late_start
+    user shell
+    group shell inet
+    capabilities NET_RAW NET_BIND_SERVICE
+    disabled
+    restart_period 2
+
+on post-fs-data
+    mkdir /dev/arm13-proxy 0755 shell shell
+
+on property:sys.boot_completed=1
+    exec -- /vendor/bin/arm13-proxyctl boot

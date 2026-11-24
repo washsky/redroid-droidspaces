@@ -11,6 +11,9 @@
 | [Mesa for Android Container](https://github.com/lfdevs/mesa-for-android-container/tree/b84f02a4514983ea9b2d96971cde72720c377320) | 27.0.0-devel，b84f02a4514983ea9b2d96971cde72720c377320 |
 | [scrcpy](https://github.com/Genymobile/scrcpy/tree/v5.0.1) | 5.0.1，补丁基线 a60891aea193d92e7e5c3942700eca63f9d19a5f |
 | [Magisk](https://github.com/topjohnwu/Magisk) | 31.1；仅使用容器内 root 管理，不在本仓库重新分发 APK |
+| [Zygisk Next](https://github.com/Dr-TSNG/ZygiskNext) | 本轮用户提供1.5.3（880-22a1bf5）包；不重分发ZIP，不把包内metadata当发行认证 |
+| LSPosed（用户提供的模块包） | 本轮v2.2.1（7912）/API102；精确输入哈希见artifacts/supplement-20261125.json，不重分发管理器、模块或license |
+| [Zygisk module sample API](https://github.com/topjohnwu/zygisk-module-sample) | src/probes/zygisk/zygisk.hpp保留John Wu版权和ISC风格许可头；API5，仅用于回调探针 |
 | [redroid-script](https://github.com/ayasa520/redroid-script) | 研究 Bootless / 镜像修补方法时的参考，不能把其原镜像修补流程直接套到本实验 |
 | [Automobili Lamborghini Recompiled](https://github.com/alondero/automobililamborghini-recomp/releases) | 检索到相似 Adreno 730 / Android 15 Gralloc 格式查询锁等待案例；本机根因另外通过反汇编和回归探针确认 |
 
@@ -19,6 +22,8 @@
 保留的第三方源码和补丁上下文沿用原项目的版权及许可证：AOSP/scrcpy 通常为 Apache-2.0，Mesa 的相关文件按其文件头和上游许可证处理，Magisk 上游为 GPL-3.0。请以相应版本原文件为准。本仓库未为全部新增整理内容指定统一顶层许可证；发布本身不改变第三方权利，也不构成对厂商二进制的授权。
 
 `src/surface/platform-headers/` 是构建 JNI helper 所需的 AOSP 头文件节选/兼容副本，保留版权头；不是稳定 NDK API 保证。
+
+`src/probes/zygisk/zygisk.hpp`的具体授权以其文件头为准，不能因为Magisk主项目GPL-3.0而丢弃这个公开API头的原许可。新增代理实现是本仓库自有小型relay，没有复制Hev代码；研究TPROXY方向时参考了[HevSocks5TProxy文档](https://github.com/heiher/hev-socks5-tproxy)和[Linux IP_TRANSPARENT说明](https://man7.org/linux/man-pages/man2/IP_TRANSPARENT.2const.html)，不依赖其二进制。
 
 ## 刻意不上传
 

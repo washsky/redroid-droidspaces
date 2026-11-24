@@ -1,5 +1,7 @@
 # 复用编译产物，在同一真机建立独立容器
 
+> **历史独立部署指南。** 本页记录第一部分2026-11-24的实际步骤，不构成现在操作redroid13repro的授权；它当前冻结。arm后续补充功能另见[第二部分](PART2_SUPPLEMENT.md)，未在新空数据目标重新重放整套补充。
+
 2026-11-24 实际完成一次：原容器保持运行，新增 `redroid13repro`，重建空白 `/data`，重新安装测试 APK。完整结果见 [复现验收](REPRODUCTION_20261124.md)。
 
 这是**已有编译产物的部署复现**。它验证配置、公开小工具、二进制补丁、首次启动和冷启动，不替代从空源码环境重建 AOSP / Mesa / 厂商 Codec 的验证。缺失来源仍见 [重建边界](REPRODUCIBILITY_GAPS.md)。
@@ -87,3 +89,7 @@ adb connect 127.0.0.1:15614
 冷启动仅停止新容器，确认镜像卸载，执行只读文件系统检查，再启动。ADB 若保留旧 offline 连接，只针对新地址执行 `adb disconnect 127.0.0.1:15614` 和 connect；不重置整个 ADB server。
 
 复测代理配置哈希、实际 UID、root、DHCP、蓝牙关闭、VALIDATED、GPU、浏览器和硬编。同步核对保护对象 PID/starttime、宿主 HTTPS 与 Wi-Fi ADB。长期测试、游戏账号和自动游戏操作不在本轮范围。
+
+## Magisk 模块后续集成
+
+上面的首次部署报告记录的是当时的root-only Magisk。2026-11-24后续已在新目标接入基础模块流程，需成套部署新版arm13-magisk-start、arm13-magisk-stage、redroid-magisk.rc，以及build-native.sh生成的guard与arm13-magisk-module-mounts。仅创建/data/adb/modules不能替代完整集成。构建、现场验收、挂载隔离与回退见[模块验收](MAGISK_MODULES_20261124.md)。

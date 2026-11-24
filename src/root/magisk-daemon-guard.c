@@ -9,6 +9,9 @@
 int main(void){
  if(getuid()!=0)return 2;
  if(unshare(CLONE_NEWNS)||mount(NULL,"/",NULL,MS_REC|MS_PRIVATE,NULL)){perror("private mount namespace");return 3;}
+ /* ReDroid stores data on the rootfs. Magisk's check_data requires a real
+  * /data mount; create it only inside this already private namespace. */
+ if(mount("/data","/data",NULL,MS_BIND|MS_REC,NULL)){perror("private data bind");return 3;}
  const char *paths[]={"/sys/fs/selinux","/sys/fs/cgroup","/dev/memcg/apps",NULL};
  for(int i=0;paths[i];i++){
   struct stat s;if(stat(paths[i],&s))continue;

@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-24",
+  "historical_snapshot": true,
+  "scope_note": "Early basic-module acceptance on redroid13repro. Hashes refer to that stage, not all current source files. Later arm-only changes are recorded separately; repro is now frozen.",
+  "later_arm_supplement": "artifacts/supplement-20261125.json",
+  "base_commit": "fd3892d981dfe989a74a11a5523ff1d7a21d4fc4",
+  "deployed_target": "redroid13repro",
+  "sha256": {
+    "src/root/magisk-daemon-guard.c": "3df70bf36b8c6de1a24a95f9514fa11982569d91df532ad639922777a36e728e",
+    "src/root/magisk-module-mounts.c": "b3dc5ac8d11bd920e0fba5a1e5374100755600aaf84305d2cd81d8aa616a2796",
+    "config/bin/arm13-magisk-start": "c81e5e67ff0c46a218f3df3329aa89d4c8c3aac033a9d7c4f7c5a1a12ce68c73",
+    "config/bin/arm13-magisk-stage": "58fcdfd86e63e72e610870ecdb78eff233d5460aa60963887ae7b89ad068117c",
+    "config/init/redroid-magisk.rc": "bb9cb621ae72124794c5113922581045f4850a1e9cf8e53561e84b902d0661c0",
+    "scripts/build-magisk-probe.py": "ba7ed2b964af8c56b01398d70a40768c7d6ca9a05a34166b3d74804544a8d505",
+    "out/native/arm13-magisk-daemon-guard": "31b7b1e99cf20553a7b014d325d11c986449f12acc49ceb828589e982d43dfc7",
+    "out/native/arm13-magisk-module-mounts": "a52248fcd9a9ab7687ecb2d75b1e789d68d104f244e9c7320a0eb699e6de6607"
+  },
+  "probe": {
+    "payloads_identical": true,
+    "tested_zip_sha256": "0299c2fc27673575b364f97d549ca66ddb3ed8311f15fee8df5ecfd6ee8c20ff",
+    "deterministic_zip_sha256": "96ac697a7326071163e83db03218ad33db87e71e816c3e075711d6239076ceb2"
+  },
+  "supported": [
+    "module directories and frontend",
+    "CLI and frontend ZIP install",
+    "post-fs-data.sh",
+    "service.sh",
+    "system.prop",
+    "boot-time Android partition overlays",
+    "action.sh",
+    "disable and uninstall"
+  ],
+  "not_supported": [
+    "Zygisk",
+    "custom sepolicy.rule loading",
+    "preinit policy persistence",
+    "automatic export of mounts created after post-fs-data"
+  ],
+  "all_acceptance_checks_passed": true
+}

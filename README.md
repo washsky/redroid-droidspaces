@@ -1,7 +1,7 @@
 # ARM64 ReDroid 13 on Droidspaces
 
 在 **骁龙 8+ Gen 1（SM8475）/ Adreno 730、Android API 35 真机**上，用 Droidspaces v7.2.0 运行 ARM64 ReDroid 13 的实验记录、源码补丁与复现材料。
-<img src="evidence/image.png" alt="redroid运行补充" width="100%">
+<img src="evidence/image.png" alt="redroid运行补充" width="40%">
 这不是通用刷机包，也不是已清空数据的可分发系统镜像。仓库记录了已经在真机跑通的组合，保留硬件、内核、厂商库和安全隔离方面的适用条件。
 
 ## 当前结果

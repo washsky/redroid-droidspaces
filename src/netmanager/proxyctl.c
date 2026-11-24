@@ -1,4 +1,5 @@
 #include "proxy-common.h"
+#include "instance-guard.h"
 #include <sys/file.h>
 #include <sys/wait.h>
 #include <ifaddrs.h>
@@ -12,16 +13,7 @@ static int run(char *const args[],const char *input){
  close(fds[0]);size_t size=input?strlen(input):0,done=0;while(done<size){ssize_t n=write(fds[1],input+done,size-done);if(n<0&&errno==EINTR)continue;if(n<=0)break;done+=(size_t)n;}close(fds[1]);int status;while(waitpid(p,&status,0)<0){if(errno!=EINTR)return -1;}return done==size&&WIFEXITED(status)?WEXITSTATUS(status):-1;
 }
 static int jump(const char *op,const char *protocol){char *args[]={"/system/bin/iptables","-w","2","-t","nat",(char*)op,"OUTPUT","-p",(char*)protocol,"-j",CHAIN,NULL};return run(args,NULL);}
-/* Reject host-net, other containers, or commands not in this instance's netns.
- * Only this named NAT chain and its exact OUTPUT jump are ever changed. */
-static int arm_namespace(void){
- struct stat a,b,entry;if(stat("/proc/self/ns/net",&a)||stat("/proc/1/ns/net",&b)||a.st_ino!=b.st_ino||a.st_dev!=b.st_dev||stat("/init.arm13-caps",&entry)||entry.st_uid||(entry.st_mode&022)||!S_ISREG(entry.st_mode))return 0;
- char device[PROP_VALUE_MAX]={0};__system_property_get("ro.product.device",device);if(strcmp(device,"redroid_arm64_only"))return 0;
- struct ifaddrs *list;if(getifaddrs(&list))return 0;int yes=0;for(struct ifaddrs *p=list;p;p=p->ifa_next)if(p->ifa_addr&&p->ifa_addr->sa_family==AF_INET&&!strcmp(p->ifa_name,"eth0")){
-  struct sockaddr_in *in=(void*)p->ifa_addr;struct in_addr expected;inet_pton(AF_INET,"172.28.41.36",&expected);if(in->sin_addr.s_addr==expected.s_addr)yes=1;
- }
- freeifaddrs(list);return yes;
-}
+/* Only our named chains and exact jumps, after the per-container guard. */
 static int ipt(const char *op){return jump(op,"tcp");}
 static int write_cfg(const struct px_config *c){
  char path[]="/data/misc/redroid-netbroker/.proxy.XXXXXX";int fd=mkstemp(path);if(fd<0)return -1;if(fchmod(fd,0640)||fchown(fd,0,2000)){close(fd);unlink(path);return -1;}FILE *f=fdopen(fd,"w");if(!f){close(fd);unlink(path);return -1;}
@@ -31,7 +23,7 @@ static void prop(const char *name,const char *value){char *args[]={"/system/bin/
 static int service(const char *expected){char state[PROP_VALUE_MAX]={0};__system_property_get("init.svc.redroid.proxy",state);return !strcmp(state,expected);}
 static int ready(const struct px_config *c){unsigned long revision;int pid;FILE *f=fopen(PX_STATS,"re");if(!f)return 0;int ok=fscanf(f,"%lu%d",&revision,&pid)==2&&revision==c->revision&&pid>1;fclose(f);return ok&&service("running");}
 
-/* Own mark bit, route table and chains, strictly after arm_namespace(). */
+/* Own mark bit, route table and chains, strictly after r13_instance_guard(). */
 static int mangle_jump(const char *op,const char *hook,const char *chain){
  char *a[]={"/system/bin/iptables","-w","2","-t","mangle",(char*)op,(char*)hook,"-p","udp","-j",(char*)chain,NULL};return run(a,NULL);
 }
@@ -61,7 +53,7 @@ static int udp_rules(int enabled,int dns,const char *host){
 }
 
 static int apply(const struct px_config *c){
- if(!arm_namespace())return -1;
+ if(r13_instance_guard())return -1;
  if(!c->enabled){
   if(udp_rules(0,0,c->host))return -1;
   for(int p=0;p<2;p++)for(int i=0;i<8&&jump("-C",p?"udp":"tcp")==0;i++)if(jump("-D",p?"udp":"tcp"))return -1;
@@ -99,7 +91,7 @@ int main(int argc,char **argv){
  if(!strcmp(argv[1],"probe")){
   if(getuid()!=2000)fail("SHELL_UID_REQUIRED");struct sockaddr_in dst={.sin_family=AF_INET,.sin_port=htons(443)};inet_pton(AF_INET,"1.1.1.1",&dst.sin_addr);int fd=px_tunnel(&c,&dst);if(fd<0)fail("PROXY_HANDSHAKE_FAILED");close(fd);puts("{\"ok\":true,\"message\":\"TCP proxy handshake succeeded\"}");return 0;
  }
- if(getuid()!=0)fail("ROOT_REQUIRED");if(!arm_namespace())fail("ARM_NETWORK_NAMESPACE_REQUIRED");
+ if(getuid()!=0)fail("ROOT_REQUIRED");const char *guard=r13_instance_guard();if(guard)fail(guard);
  mkdir("/data/misc/redroid-netbroker",0755);int lock=open("/data/misc/redroid-netbroker/proxy.lock",O_RDWR|O_CREAT|O_CLOEXEC|O_NOFOLLOW,0600);if(lock<0||flock(lock,LOCK_EX))fail("CONFIG_LOCK_FAILED");if(px_read(&c))fail("PROXY_CONFIG_INVALID");
  if(!strcmp(argv[1],"status")){status(&c);return 0;}
  if(!strcmp(argv[1],"test")){

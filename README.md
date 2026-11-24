@@ -34,13 +34,14 @@ Magisk 深入完整化、Zygisk/Xposed、原版 scrcpy 优化、统一代理和�
 
 ## 第二部分：功能补充与兼容性探索
 
-2026-11-24/25 在原成功环境 redroid13arm 上追加；redroid13repro 保留早期独立部署/基础模块验收，**现已冻结，未同步后续改进**。
+2026-11-24/25 先在原成功环境 redroid13arm 上追加，再经用户明确授权，在 redroid13repro 的既有独立部署基线上完成[第二部分增量复现](docs/part2/REPRODUCTION_REPRO_20261125.md)。复用大型编译产物，跳过已验收的基础 Magisk 模块生命周期；本轮只重启 repro，arm、arch2 和真机保持运行。
 
 - **[第二部分总览、范围与实例状态](docs/PART2_SUPPLEMENT.md)**
 - **[重点：Magisk 完整化与 Zygisk Next 1.5.3 + LSPosed 2.2.1](docs/part2/MAGISK_ZYGISK_LSPOSED.md)**：安装、身份/命名空间、SCM_RIGHTS、noexec、真实回调，以及给 x86 的排障检查表。
 - [原版 scrcpy、终端、显示启动参数与能力收紧](docs/part2/SCRCPY_TERMINAL_DISPLAY.md)
 - [UID 管理器 v1.2、统一 TCP/UDP/DNS 代理和认证](docs/part2/PROXY_AND_MANAGER.md)
 - [补充部署、验证与回退](docs/part2/REPRODUCTION_AND_VALIDATION.md)
+- [repro 实际复现与验收、管理控制器改为每容器配置](docs/part2/REPRODUCTION_REPRO_20261125.md)
 
 最终 arm 已验证 Next1.5.3（880-22a1bf5）+ 用户提供的 LSPosed2.2.1（7912）、stock scrcpy5.0.1 QTI编码/VAAPI解码、终端PTY、init显示参数和可选代理。**没有复测 x86、没有实际第三方 Xposed 业务 hook，也没有一小时耐久**；普通应用仍依赖 UID broker。详情和输入/运行哈希见[脱敏摘要](evidence/2026-11-25-supplement/README.md)与[产物清单](artifacts/supplement-20261125.json)。
 

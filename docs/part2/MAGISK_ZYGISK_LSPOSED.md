@@ -33,7 +33,7 @@ Magisk 的私有挂载不会自然出现在容器 init / 应用视图。magisk-m
 4. open_tree 克隆、move_mount 导出到经核实的 init 视图；失败回退当次已挂入部分。
 5. 保留容器内部存储传播，避免全 private 使后挂载的 emulated storage 丢失。
 
-CLI/前端安装、Action、system.prop、脚本、普通应用视图中的覆盖、禁用和卸载的早期完整验收见[模块报告](../MAGISK_MODULES_20261124.md)。后续部署到了 arm；该早期报告不代表冻结的 repro 已拥有 Next 1.5.3。
+CLI/前端安装、Action、system.prop、脚本、普通应用视图中的覆盖、禁用和卸载的早期完整验收见[模块报告](../MAGISK_MODULES_20261124.md)。后续先部署到arm，再经用户单独授权，在repro完成[Next1.5.3/LSPosed2.2.1增量复现](REPRODUCTION_REPRO_20261125.md)；早期模块报告本身不包含这次框架验收。
 
 ## 3. 安装失败先分清“文件存在”和“能够执行”
 

@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "part": 2,
+  "date": "2026-11-25",
+  "timezone": "Asia/Shanghai",
+  "supplement_base_commit": "7b91023ea471599317997a78c568192a362d1c26",
+  "target": "redroid13repro",
+  "scope": "Incremental deployment on the existing independent baseline; no data reset or full AOSP/Mesa rebuild",
+  "protected": {
+    "physical_host_rebooted": false,
+    "arm_modified_or_restarted": false,
+    "arch2_modified_or_restarted": false,
+    "global_selinux": "Enforcing",
+    "global_adb_bpf_firewall_changes": false
+  },
+  "repro_cold_starts": 2,
+  "generic_controller_update": "Hot update after cold start 2, followed by explicit proxy boot/test; no third cold start",
+  "input_archives_sha256": {
+    "Zygisk-Next-1.5.3-880-22a1bf5-release.zip": "186a0a26c9fcb895af1954b42de831433c23d72d1bd0758b986069154359db67",
+    "LSPosed-v2.2.1-7912-release.zip": "ed37de2d2097aa6ba871377e7bf4ac719b708484f9468928e6abae10ab311e74"
+  },
+  "module_install_exit_codes": {
+    "zygisk_next_153": 0,
+    "lsposed_221": 0,
+    "temporary_callback_probe": 0
+  },
+  "license_install_step": "Skipped; no authorization/license copied from arm",
+  "versions": {
+    "magisk": "31.1 (31100)",
+    "zygisk_next": "1.5.3-880-22a1bf5",
+    "lsposed": "2.2.1 (7912) / API102",
+    "manager": "versionCode4 / versionName1.2.1",
+    "scrcpy": "stock 5.0.1"
+  },
+  "observed_installed_sha256": {
+    "/vendor/bin/arm13-proxyctl": "3d17898666dfd7c8190a218df372b8e549da80e5737423425506ff4fc9e809a8",
+    "/vendor/bin/arm13-bootctl": "67f9d8a0b44bd2b88bb6f41a8de12086a3387b2f6568d46c096762b78030870d",
+    "/vendor/bin/arm13-proxy-relay": "3557117a53a70aaf63cd72a90df0731ac812f510d38b28db68d983aa003a16ab",
+    "/vendor/bin/arm13-magisk-daemon-guard": "31b7b1e99cf20553a7b014d325d11c986449f12acc49ceb828589e982d43dfc7",
+    "/vendor/bin/arm13-magisk-module-mounts": "9b94e0b7c5a81ae889fb5b52da02462efe1f7dc0839500dd8952bebebbb1c679",
+    "/vendor/bin/arm13-su-login": "2c0aae5d753cad638c0e1e47491ba26d8175daa06203e6a1d9c29c1c1656a714",
+    "/system/lib64/libmagisk_container_context.so": "cbdaabc88bf1eaddffbb24eb38eb06680df02849b6521973017ac63124bb318c",
+    "/init.arm13-caps": "2098488e8af368b0987157968c89a8121af71eceaf237254aa2c6a9c9fbce9fd",
+    "/vendor/lib64/libqcodec2_v4l2codec.so": "c72860fed914989457ea55a8f046325ada2f4307995711575755fcff65de21dd"
+  },
+  "manager_apk_sha256": "05ddad2763fac14566ef485a910ca6e6b50fb691804e2e4b341c84911b5ab23a",
+  "instance_config": {
+    "path": "/data/adb/arm13-instance.conf",
+    "format": "R13INSTANCE1; instance label; verified eth0 IPv4; exactly three newline-terminated lines",
+    "owner": "0:0",
+    "mode": "0600",
+    "root_config_per_container": true,
+    "compiled_instance_ip": false,
+    "fail_closed_missing_unsafe_wrong_address": true
+  },
+  "final_state": {
+    "modules_ready": "1",
+    "terminal_ready": "1",
+    "display": {
+      "ok": true,
+      "width": 720,
+      "height": 1280,
+      "dpi": 320,
+      "fps": 60,
+      "currentWidth": 720,
+      "currentHeight": 1280,
+      "currentDpi": 320,
+      "currentFps": 60,
+      "pending": false
+    },
+    "proxy": {
+      "enabled": true,
+      "protocol": "socks5",
+      "udp": false,
+      "dns": false,
+      "auth": false,
+      "active": true,
+      "service": "running",
+      "rules": true
+    },
+    "broker_revision_unchanged": true,
+    "temporary_callback_probe_removed": true,
+    "lsposed_third_party_modules": 0,
+    "init_effective_caps": "000001deffecffff",
+    "relay_effective_caps": "0000000000000000",
+    "memory_limit_bytes": 2684354560,
+    "memory_failcnt": 0,
+    "cpu_quota_enforced": false,
+    "dev_mount_noexec": true
+  },
+  "video_qa": {
+    "scrcpy_version": "5.0.1",
+    "stock_server_sha256": "764eb6f79811d5211fe9df341120882ba9994c7a61b897d7bf3fb662e53bc536",
+    "codec": "c2.qti.avc.encoder",
+    "hwdec": "vaapi",
+    "width": 720,
+    "height": 1280,
+    "central_fraction": 0.6,
+    "rgb_mae": 1.342922132201646,
+    "reference_std": [
+      44.14666932180837,
+      49.751759798820416,
+      0.0
+    ],
+    "decoded_std": [
+      44.15793593593129,
+      49.756665853206755,
+      1.1967117673354732
+    ],
+    "temporary_media_removed": true
+  },
+  "tests_passed": [
+    "real system_server and ordinary app pre/post callbacks",
+    "three peer impersonation negatives and real SCM_RIGHTS transport",
+    "Droidspaces interactive root PTY",
+    "ordinary app private storage, SharedMemory, HTTPS and GPU/AHB probes",
+    "SOCKS5/HTTP TCP and DNS; SOCKS5 UDP dual-target source and transaction verification",
+    "relay down with rules retained rejects UDP, successful recovery",
+    "actual APK scrolling and display/proxy saves, malformed input rejection",
+    "runtime instance config strict reader tests and wrong-address real controller rejection; no rule or config changes",
+    "stock server default QTI encoding; VAAPI decoding and pixel comparison"
+  ],
+  "skipped": [
+    "repeated basic Magisk module lifecycle",
+    "built-in Zygisk diagnostic replay",
+    "large AOSP/Mesa/vendor rebuild",
+    "fresh-data deployment of the supplement",
+    "x86 or 32-bit ABI",
+    "real proxy credentials",
+    "third-party Xposed business hook",
+    "one-hour endurance",
+    "game login or automation"
+  ],
+  "broker_remains_required": true,
+  "report": "docs/part2/REPRODUCTION_REPRO_20261125.md",
+  "evidence": "evidence/2026-11-25-repro-part2/README.md",
+  "source_sha256": {
+    "src/netmanager/instance-guard.h": "22ad1b6bca9d24c33e4a3e07f16132f7ece77b21600fba9e035a1bf1ee134811",
+    "src/netmanager/proxyctl.c": "b6cebfb6d3643c23144d0c83ae9cdbce41edff508e6d2d870b73bfc3ebd58c95",
+    "src/netmanager/bootctl.c": "7c505c1e0bce40fac60cdc31d7691f946fefbac95376d3791987256c4ab05cdf",
+    "src/netmanager/MainActivity.java": "0e284412beda54c163c22e18ec4b8d83165516e5e4e5ad415d5dcb0c88c04111",
+    "src/netmanager/AndroidManifest.xml": "cbed20974eda705a4e268deec98cc051a9bb99369f763b5e0f216262f09190b6",
+    "scripts/build-management-tools.sh": "cc7e797cf7f3de8ec1c1275e038642cd8d721fed6856616a60469d3015703117",
+    "tests/test-instance-guard.c": "13f54958a4dc3dff9b162d7b66c2ee179aee89a53efe75327bc96aa3fd1832dd"
+  }
+}

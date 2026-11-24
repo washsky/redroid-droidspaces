@@ -6,11 +6,11 @@
 
 - 核心仍是[第一部分运行ReDroid](FULL_PROCESS.md)；深入Magisk、Next/LSPosed、stock投屏与代理属于第二部分补充。
 - redroid13arm是后续授权实验目标，已集成Magisk模块完整化、Next1.5.3+LSPosed2.2.1、终端PTY、stock scrcpy、显示参数及代理v1.2。
-- **redroid13repro冻结**：直到用户再次明确授权，不连接、读取、修改或重启；不运行对它的inspect脚本，也不以保护检查为由查询它。
+- 用户后续明确授权在redroid13repro复现第二部分，已完成[增量复现与验收](part2/REPRODUCTION_REPRO_20261125.md)。它当前具备Next/LSPosed、stock投屏、PTY、显示和代理；管理APK1.2.1，两个控制器读取root-owned实例配置，不再将arm地址编译进程序。
 - 不重启真机，不停止或重启arch2；不全局操作ADB、SELinux、BPF、防火墙。
-- arm只在被授权任务需要时冷启动；重新核实PID/starttime、UID、netns、连接和窗口，历史PID不用作命令参数。
+- 最近repro复现期间，arm完全保持原状且不允许停止/重启；后续操作仍以用户当轮授权为准。重新核实PID/starttime、UID、netns、连接和窗口，历史PID不用作命令参数。
 - 本地项目已迁入android-lab；不要向ai-lan-gateway放任何项目临时文件。目录通过lab.env定位，不把个人路径写入公开步骤。
-- 本轮前用户要求暂缓写交接；现在已明确要求统一整理发布。不要把整理文档当成重新部署或解冻repro的授权。
+- 整理文档本身不是部署授权；本次repro复现依据用户单独明确指令，不能外推为修改其他容器的授权。
 
 | 当前arm关键点 | 状态/入口 |
 |---|---|
@@ -23,7 +23,9 @@
 | 投屏 | stock5.0.1 server默认QTI编码；--hwdec=vaapi仅电脑端；不再要求定制连接脚本 |
 | 产物/证据 | [清单](../artifacts/supplement-20261125.json)、[摘要](../evidence/2026-11-25-supplement/README.md) |
 
-发布前只读复核：框架daemon/system_server接入、配置与关键哈希保持。没有重启容器或查询repro来写文档。LSPosed第三方模块count0，x86/业务hook/一小时耐久未验收。
+前一补充发布提交7b91023仅对arm做只读复核。后续repro增量复现单独记录，不倒写历史：两次仅repro冷启动、真实回调与管理器、网络、显示和stock投屏均通过。真机bootID、arm/arch2的PID与starttime连续；LSPosed第三方模块count0，x86/业务hook/一小时耐久未验收。
+
+repro新控制器依赖/data/adb/arm13-instance.conf（root:root 0600），配置缺失/不匹配时拒绝执行。arm仍是原版本控制器与APK，未热更新；以后升级它时须先配置本实例文件，再换通用控制器。不要复制repro的/data/adb授权、license或实例配置到arm。
 
 下面的“原容器未部署”“full”“Zygisk未支持”只描述相应历史阶段，不是上述arm当前状态。
 

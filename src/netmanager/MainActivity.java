@@ -237,7 +237,7 @@ public final class MainActivity extends Activity {
         form.addView(text("当前启动："+state.optInt("currentWidth")+" × "+state.optInt("currentHeight")+" · DPI "+state.optInt("currentDpi")+" · "+state.optInt("currentFps")+" Hz",14,INK,true));
         String[] names={"宽度（240–3840，偶数）","高度（240–3840，偶数）","DPI（72–640）","刷新率 Hz（15–120）"},keys={"width","height","dpi","fps"};EditText[] edits=new EditText[4];
         for(int i=0;i<4;i++)edits[i]=field(form,names[i],String.valueOf(state.optInt(keys[i])),android.text.InputType.TYPE_CLASS_NUMBER);
-        form.addView(text("保存到 /data/adb/arm13-boot.conf，经 init 校验后供 redroid13arm 下次冷启动读取。当前画面不会立即变化；不重启真机。\n"+(state.optBoolean("pending")?"已有待冷启动生效的参数。":"已保存参数与当前启动一致。"),12,MUTED,false));
+        form.addView(text("保存到 /data/adb/arm13-boot.conf，经 init 校验后供当前容器下次冷启动读取。当前画面不会立即变化；不重启真机。\n"+(state.optBoolean("pending")?"已有待冷启动生效的参数。":"已保存参数与当前启动一致。"),12,MUTED,false));
         ScrollView scroll=new ScrollView(this);scroll.addView(form);
         AlertDialog dialog=new AlertDialog.Builder(this).setTitle("显示启动参数").setView(scroll).setNegativeButton("取消",null).setPositiveButton("保存下次启动参数",null).create();
         dialog.setOnShowListener(v->dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(x->{
@@ -248,7 +248,7 @@ public final class MainActivity extends Activity {
         }));dialog.show();
     }
     void confirmReload(){new AlertDialog.Builder(this).setTitle("放弃未保存的修改？").setMessage("刷新会重新读取当前已保存的名单。").setNegativeButton("继续编辑",null).setPositiveButton("刷新",(d,w)->load()).show();}
-    void help(){new AlertDialog.Builder(this).setTitle("联网兼容、代理与显示").setMessage("应用名单控制 UID 联网兼容，仍依赖 UID 2000 broker，名单按包名保存。共享 UID 的应用一起生效。\n\n统一代理控制全实例 IPv4 公网 TCP。SOCKS5 可选 UDP；DNS 开关将 UDP 53 查询通过代理 TCP 转发。局域网及回环通常直连，DNS 开启时查询优先转发。IPv6 仍走原路径。认证支持 SOCKS5 用户名密码与 HTTP Basic。\n\n代理转发服务以 shell 身份运行。配置中的认证信息仅 root 与 shell 可读，界面不回显已保存密码。\n\n显示参数保存后在本 arm 容器下次冷启动生效，不会立即重启。").setPositiveButton("知道了",null).show();}
+    void help(){new AlertDialog.Builder(this).setTitle("联网兼容、代理与显示").setMessage("应用名单控制 UID 联网兼容，仍依赖 UID 2000 broker，名单按包名保存。共享 UID 的应用一起生效。\n\n统一代理控制全实例 IPv4 公网 TCP。SOCKS5 可选 UDP；DNS 开关将 UDP 53 查询通过代理 TCP 转发。局域网及回环通常直连，DNS 开启时查询优先转发。IPv6 仍走原路径。认证支持 SOCKS5 用户名密码与 HTTP Basic。\n\n代理转发服务以 shell 身份运行。配置中的认证信息仅 root 与 shell 可读，界面不回显已保存密码。\n\n显示参数保存后在当前容器下次冷启动生效，不会立即重启。").setPositiveButton("知道了",null).show();}
     void toast(String s){Toast.makeText(this,s,Toast.LENGTH_LONG).show();}
     void hideKeyboard(){((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(search.getWindowToken(),0);search.clearFocus();}
     @Override public void onBackPressed(){if(search.hasFocus()){hideKeyboard();return;}if(appsPage.getVisibility()==View.VISIBLE){showApps(false);return;}if(dirty())new AlertDialog.Builder(this).setTitle("还有未保存修改").setNegativeButton("继续编辑",null).setPositiveButton("退出",(d,w)->finish()).show();else super.onBackPressed();}

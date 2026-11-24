@@ -113,7 +113,8 @@
     "vendor/module/APK binaries and private authorization data not distributed"
   ],
   "evidence": "evidence/2026-11-25-supplement/README.md",
-  "current_source_sha256": {
+  "source_snapshot_commit": "7b91023ea471599317997a78c568192a362d1c26",
+  "source_snapshot_sha256": {
     "config/arm13-boot.conf.example": "282a38cb1f2bfb326bedb1ee9719845b4f8ca4055a37f3907dd49b87e972a49a",
     "config/bin/arm13-magisk-stage": "58fcdfd86e63e72e610870ecdb78eff233d5460aa60963887ae7b89ad068117c",
     "config/bin/arm13-magisk-start": "fcce2402cd22a113c4330522586f106077ca395444353403b4fcea207b8a91c8",
@@ -148,5 +149,6 @@
     "src/root/magisk-login-compat.c": "1554881662789db4458dabca5a4e37d1ad213f9bfd84e6b62b564bc2dc4e16f7",
     "src/root/magisk-module-mounts.c": "ee57a339c51df402cb85a642def34a0f0668472daa8174b4c69b93cbd6ec8daa",
     "config/container.arm13-part2.example.conf": "837fc3058d969d07130d52b7d09ac63bea0fcc2de8cafd847ec3b1ab414f7896"
-  }
+  },
+  "scope_note": "Historical arm publication snapshot; later repro work is recorded separately in artifacts/part2-repro-20261125.json"
 }

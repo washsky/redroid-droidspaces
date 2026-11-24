@@ -6,7 +6,7 @@
 
 手机端 c2.qti.avc.encoder 负责硬编码；Debian --hwdec=vaapi 控制电脑硬解码。二者独立。改客户端 decoder 不能修复编码器输入 Surface 的布局错误。
 
-历史组合是定制 server + linear-window helper，已保留在 patches/scrcpy、build-scrcpy-server.sh 和 redroid-hw-scrcpy.sh 中，供旧阶段回退。**本轮 arm 最终不再依赖定制连接脚本或定制 server。** repro 冻结，没有把这条结论同步过去。
+历史组合是定制 server + linear-window helper，已保留在 patches/scrcpy、build-scrcpy-server.sh 和 redroid-hw-scrcpy.sh 中，供旧阶段回退。**arm最终不再依赖定制连接脚本或定制server。** 后续经用户授权，repro也完成相同stock路径的[实际复现和像素验证](REPRODUCTION_REPRO_20261125.md)，无需另给定制连接脚本。
 
 中间可用的原版参数是：
 
@@ -115,7 +115,7 @@ UID 网络管理中的“分辨率、DPI 与刷新率”同时显示当前 ro.bo
 - 配置内容生成 32 位 revision，旧 revision 返回 STALE_CONFIG；
 - 保存不重启容器，不对当前画面执行 wm size/density，更不重启真机。
 
-当前源码的 bootctl/proxyctl 还固定检查本实验 arm 地址、设备名和 netns；新实例需要审查并重新编译，不能将默认检查移到冻结 repro。
+后续仓库验收发现旧bootctl/proxyctl将arm地址编译进程序，妨碍跨实例复用。当前源码已改为读取root:root 0600的/data/adb/arm13-instance.conf，保留设备、PID/net namespace和实际eth0地址检查；同一二进制可复用。新配置格式及旧版升级顺序见[部署说明](REPRODUCTION_AND_VALIDATION.md)。本次只升级repro；arm仍运行原版本。
 
 ## 7. 能力收紧的实际边界
 

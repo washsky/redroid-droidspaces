@@ -1,17 +1,10 @@
 #include "proxy-common.h"
+#include "instance-guard.h"
 #include <sys/file.h>
 #include <sys/wait.h>
 #include <sys/system_properties.h>
 #include <ifaddrs.h>
 #define BOOT "/data/adb/arm13-boot.conf"
-static int arm_namespace(void){
- struct stat a,b,entry;if(stat("/proc/self/ns/net",&a)||stat("/proc/1/ns/net",&b)||a.st_ino!=b.st_ino||a.st_dev!=b.st_dev||stat("/init.arm13-caps",&entry)||entry.st_uid||(entry.st_mode&022)||!S_ISREG(entry.st_mode))return 0;
- char device[PROP_VALUE_MAX]={0};__system_property_get("ro.product.device",device);if(strcmp(device,"redroid_arm64_only"))return 0;
- struct ifaddrs *list;if(getifaddrs(&list))return 0;int yes=0;for(struct ifaddrs *p=list;p;p=p->ifa_next)if(p->ifa_addr&&p->ifa_addr->sa_family==AF_INET&&!strcmp(p->ifa_name,"eth0")){
-  struct sockaddr_in *in=(void*)p->ifa_addr;struct in_addr expected;inet_pton(AF_INET,"172.28.41.36",&expected);if(in->sin_addr.s_addr==expected.s_addr)yes=1;
- }
- freeifaddrs(list);return yes;
-}
 
 static const char *keys[]={"androidboot.redroid_width","androidboot.redroid_height","androidboot.redroid_dpi","androidboot.redroid_fps"};
 static const char *props[]={"ro.boot.redroid_width","ro.boot.redroid_height","ro.boot.redroid_dpi","ro.boot.redroid_fps"};
@@ -47,7 +40,7 @@ static void status(unsigned long rev,int *v){
  printf("{\"ok\":true,\"revision\":%lu,\"width\":%d,\"height\":%d,\"dpi\":%d,\"fps\":%d,\"currentWidth\":%d,\"currentHeight\":%d,\"currentDpi\":%d,\"currentFps\":%d,\"pending\":%s}\n",rev,v[0],v[1],v[2],v[3],actual[0],actual[1],actual[2],actual[3],memcmp(v,actual,sizeof(actual))?"true":"false");
 }
 int main(int argc,char **argv){
- if(getuid())fail("ROOT_REQUIRED");if(!arm_namespace())fail("ARM_NETWORK_NAMESPACE_REQUIRED");
+ if(getuid())fail("ROOT_REQUIRED");const char *guard=r13_instance_guard();if(guard)fail(guard);
  if(argc!=2||(strcmp(argv[1],"status")&&strcmp(argv[1],"save")))fail("BAD_OPERATION");
  int lock=open("/data/adb/arm13-boot.lock",O_RDWR|O_CREAT|O_CLOEXEC|O_NOFOLLOW,0600);if(lock<0||flock(lock,LOCK_EX))fail("CONFIG_LOCK_FAILED");
  int v[4];unsigned long rev=read_boot(v);

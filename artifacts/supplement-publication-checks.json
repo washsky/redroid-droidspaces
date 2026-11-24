@@ -27,5 +27,7 @@
     "x86 validation",
     "real proxy credential or Xposed business hook",
     "one-hour endurance or game automation"
-  ]
+  ],
+  "validated_publication_commit": "7b91023ea471599317997a78c568192a362d1c26",
+  "scope_note": "Checks for the earlier arm documentation/publication turn; not the later repro deployment"
 }

@@ -18,6 +18,7 @@
 3. [UID 管理器 v1.2 与统一 TCP/UDP/DNS 代理](part2/PROXY_AND_MANAGER.md)。
 4. [部署清单、验证和回退](part2/REPRODUCTION_AND_VALIDATION.md)。
 5. [脱敏验收摘要](../evidence/2026-11-25-supplement/README.md)及[补充产物清单](../artifacts/supplement-20261125.json)。
+6. [后续 repro 增量复现、控制器实例配置及仓库验收](part2/REPRODUCTION_REPRO_20261125.md)。
 
 早期 [Magisk 基础模块验收](MAGISK_MODULES_20261124.md)也是本部分的前置实验记录；它与后续外部 Zygisk 成功状态分开保存。
 
@@ -25,8 +26,8 @@
 
 | 对象 | 已有验收范围 | 本部分结束状态 |
 |---|---|---|
-| redroid13arm | 原始成功环境；后经用户授权承接 Magisk、Next/LSPosed、scrcpy、终端、显示和代理改进 | 本部分实际目标；允许的冷启动只针对它 |
-| redroid13repro | 复用编译产物、清空新镜像应用数据后的独立部署；早期基础模块验收 | **冻结：未经用户后续指令，不连接、读取、修改或重启**；未同步本部分后续改进 |
+| redroid13arm | 原始成功环境；先承接 Magisk、Next/LSPosed、scrcpy、终端、显示和代理改进 | 后续repro复现期间保持原状、不停止或重启；仍是原控制器/APK1.2 |
+| redroid13repro | 早期空data独立部署与基础模块验收；冻结后，用户单独明确授权第二部分复现 | 已在既有data上增量复现；APK1.2.1、通用控制器读取每容器配置；只冷启动它 |
 | 真机与 arch2 | 保护对象 | 不重启真机，不停止或重启 arch2；不改宿主全局 SELinux/BPF/防火墙 |
 
 文中的 PID、UID、netns inode、窗口句柄、端口连接状态都不是长期配置；实际操作前重新核实。历史记录中的“原容器未部署/未重启”只描述当时，后续用户已明确允许在 arm 实验。
@@ -43,7 +44,7 @@
 | 终端/显示 | 登录 su 参数兼容、Magisk 私有 PTY 修复；init 读取显示参数，前端保存 | 任意 Linux su 参数、任意刷新率都能达到硬件吞吐 |
 | 权限收紧 | full 改为 nocaps + 自定义 init 删五项 capability，保留 mask/seccomp | UID 映射的真正非特权容器、最小能力集 |
 | 统一代理 | IPv4 TCP；SOCKS5 UDP；DNS over TCP；认证模拟正反例；冷启动恢复 | IPv6、逐应用代理、真实认证账号、所有 UDP 应用 |
-| UID 管理器 | v1.2；独立应用页、显示参数和代理配置；实际滚动与保存 | 原生应用 UID 直连已经修复 |
+| UID 管理器 | arm为v1.2，repro为v1.2.1；独立应用页、显示参数和代理配置；实际滚动与保存 | 原生应用 UID 直连已经修复 |
 
 结束时 SOCKS5 TCP 代理保持开启，新增 UDP、DNS、认证选项关闭；显示为 720×1280、DPI320、60Hz。普通应用联网仍依赖 UID broker。
 

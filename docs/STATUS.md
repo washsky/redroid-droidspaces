@@ -12,10 +12,12 @@
 | 权限 | nocaps+删五项，36项能力，无root UID映射；mask/seccomp保留 |
 | 代理 | IPv4 TCP；可选SOCKS5 UDP、DNS over TCP、认证；结束时UDP/DNS/认证关闭 |
 | 普通应用网络 | 仍依赖UID broker，不是原生UID直连修复 |
-| repro | 独立部署和早期基础模块验收历史；当前冻结，未同步后续补充 |
+| repro | 经后续授权完成第二部分增量复现；Next/LSPosed、PTY、两次冷启动、stock QTI/VAAPI、显示与代理；APK1.2.1、每容器运行时控制器配置 |
 | 未验收 | x86复测、真实认证账号、第三方Xposed业务hook、游戏登录/自动流程、一小时耐久、空源码全编译 |
 
 完整输入/二进制哈希：[补充清单](../artifacts/supplement-20261125.json)。总结取自实际验收，并在发布前对arm做只读复核；没有为写文档重新部署。
+
+上段清单对应原arm发布阶段。后续仅repro的[实际复现报告](part2/REPRODUCTION_REPRO_20261125.md)和[独立清单](../artifacts/part2-repro-20261125.json)分开保存；arm、arch2、真机未重启或升级。
 
 ## 基准设备
 

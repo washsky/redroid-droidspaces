@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="lab.arm13.netmanager" android:versionCode="3" android:versionName="1.2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="lab.arm13.netmanager" android:versionCode="4" android:versionName="1.2.1">
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
     <application android:label="UID 网络管理" android:theme="@style/AppTheme" android:icon="@drawable/ic_launcher" android:allowBackup="false" android:supportsRtl="true">
         <activity android:name=".MainActivity" android:exported="true" android:windowSoftInputMode="adjustResize|stateAlwaysHidden">

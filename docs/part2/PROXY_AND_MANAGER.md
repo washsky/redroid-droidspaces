@@ -1,4 +1,4 @@
-# UID 管理器 v1.2：统一代理、UDP、DNS 和认证
+# UID 管理器 v1.2 / v1.2.1：统一代理、UDP、DNS 和认证
 
 所属：[第二部分补充](../PART2_SUPPLEMENT.md)。基础 UID 缺口及 broker 见[第一部分网络说明](../NETWORK.md)。
 
@@ -51,6 +51,8 @@ DNS 开关不是 DoH，也不是自动加密 DNS；应用自带 DoH/DoT 不受�
 
 只在已核实 arm netns 中操作自有 NAT 链 ARM13_PROXY 及精确 OUTPUT 跳转。relay 在回环10809取得 SO_ORIGINAL_DST，建立 SOCKS5 CONNECT 或 HTTP CONNECT，双向转发，保留应用 TLS。
 
+下文arm实测保留原阶段含义。后续repro也完成同样路径的增量验收；当前源码控制器读取每容器配置，链名沿用ARM13前缀，但只存在于各自容器netns，不代表跨容器共享规则。
+
 实现包含握手超时、非阻塞连接、128会话上限、背压、半关闭、空闲超时和计数。真实代码测试覆盖分片握手、拒绝响应及双向各2MiB传输；不是只看端口能建立连接。
 
 安装规则在启动 relay 之前完成，避免 relay 缺失时主动回退原路径。规则已生效后服务故障，受管路径连接失败；这不等于对启动配置应用失败、任意 netd 重写或其他协议有全局防泄漏保证。
@@ -71,7 +73,7 @@ DNS 开关不是 DoH，也不是自动加密 DNS；应用自带 DoH/DoT 不受�
 | 精确策略规则 | pref9001，匹配该标记位 |
 | 监听 | 回环10809 UDP |
 
-控制器在改变任何规则前验证：自己与 PID1 的 netns 一致、root-owned init helper、设备为 redroid_arm64_only、eth0 为本实验 arm 地址。不会全局清空规则、操作宿主 BPF 或覆盖 netd 的原路由表。
+当前控制器在改变任何规则前验证：root:root 0600的/data/adb/arm13-instance.conf、自己与PID1的PID/net namespace一致、root-owned init helper、设备为redroid_arm64_only、eth0与本实例配置一致。IP不再编译绑定arm；详见[配置格式与升级顺序](REPRODUCTION_AND_VALIDATION.md)。不会全局清空规则、操作宿主BPF或覆盖netd原路由表。arm旧版保持原状，本次仅repro使用通用版本。
 
 TPROXY 的透明回包需要能力。init 只给 UID2000 relay 配 NET_RAW 和 NET_BIND_SERVICE；不授予 NET_ADMIN/root。关闭 UDP 时进程主动清空 permitted/effective 能力，最终实测 CapEff=0、NoNewPrivs=1。规则仍由受目标校验保护的 root 控制器管理。
 

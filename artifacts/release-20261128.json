@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "date": "2026-11-28",
+  "timezone": "Asia/Shanghai",
+  "release_ref": "v2026.11.28-arm64",
+  "source_repository_base_commit": "3b7c9152e1fb08fd51948eb2e886551b65cea11d",
+  "scope": "Device-specific clean prebuilt distribution from existing PVE-reference-patched ARM64 ReDroid13 outputs; core first, optional part2 separate; not a full source rebuild.",
+  "image": {
+    "schema": 1,
+    "image": "redroid13-arm64-sm8475-20261128.img",
+    "image_size_bytes": 12884901888,
+    "image_sha256": "beae1105bf35cc5fbc4081a3e0d6436e2a394eadb7cd0c80c520a66f1a3e1b88",
+    "regular_files": 3073,
+    "metadata_entries": 4229,
+    "xattr_entries": 4219,
+    "userdata_entries": 0,
+    "profile": {
+      "schema": 1,
+      "release": "v2026.11.28-arm64",
+      "android_release": "13.0.0_r82",
+      "target": "redroid_arm64_only-userdebug",
+      "aosp_source_base_commit": "3b7c9152e1fb08fd51948eb2e886551b65cea11d",
+      "pve_reference": "hqw700/redroid-pve v0.0.4; actual exported AOSP patches in this repository",
+      "device": "Redmi K60 / mondrian / SM8475 / Adreno 730",
+      "host_rom": "OS3.0.5.0.VMNCNXM / Android 15",
+      "image_size_bytes": 12884901888,
+      "userdata": "empty; generated independently on first boot",
+      "magisk": "31.1 (31100), bootless modules integration",
+      "zygisk_next_lsposed": "not preinstalled; no module license or authorization data included",
+      "network": "UID broker required; empty app selection; optional proxy disabled by default",
+      "management": "1.2.1; runtime address-aware controllers; label derived from actual eth0 IPv4; proxy disabled; broker starts with an empty app selection",
+      "display": "720x1280, DPI320, 60Hz default; /data/adb/arm13-boot.conf",
+      "hardware_codec": "current-ROM QTI libraries, stock scrcpy default linear format patch",
+      "capabilities": "nocaps + allow_sandboxing=1 + original cap-init drops five capabilities; not rootless",
+      "publisher_confirmed_vendor_redistribution": true,
+      "new_release_sources_sha256": {
+        "src/release/export-xattrs.c": "6d1e7d0de9cde872f616d1b8d0a2cad670cdfdcc8502c3a70f76c052a32d44a9",
+        "scripts/build-release-image.py": "884ebbcdbdb7df8a2907ea0aec64d68229f56ec2b18af406d838b7f188c77823",
+        "config/bin/arm13-release-setup": "0c3a0bcf33e77c63bfc8112aedb9811e0e7219dbb4411e882b7588a8e3acc76b",
+        "config/init/000-arm13-release.rc": "1ec0eba99af71187c575ec796c4cd2baa6f628e25770fc24c1b95aaa066d92f7"
+      }
+    },
+    "validation": "pristine filesystem and recorded core hashes; runtime results recorded separately"
+  },
+  "inputs": {
+    "magisk_validated_apk_sha256": "9d514204826bbe3765e6dbe1e958a9db97cb5c10a439b18125e63450ddf2cc3c",
+    "magisk_input_kind": "historical unofficial; exact corresponding source not established",
+    "magisk_validated_signer_certificate_sha256": "a0d3671e5983bd47a78cb3fb4309527ff40ca56bf22e40288cab42e5bca69b04",
+    "magisk_current_upstream_same_version_sha256": "89cefac0a318afa39fb3880c45c87b036c05bc1ebf02a7a715b7f8d7c26ac6e7",
+    "magisk_current_upstream_signer_certificate_sha256": "b4cb83b4dad99f997dbe872f013aa16c14eec41d167021f371f7e1330f273ee6",
+    "manager_apk_sha256": "05ddad2763fac14566ef485a910ca6e6b50fb691804e2e4b341c84911b5ab23a",
+    "api_probe_apk_sha256": "5917a370aeeb093b59c167c4ce06a80e0fa9bef0946a6cb52b4edd88ada7d204",
+    "optional_modules": [
+      {
+        "name": "Zygisk Next",
+        "version": "1.5.3",
+        "versionCode": 880,
+        "file": "Zygisk-Next-1.5.3-880-22a1bf5-release.zip",
+        "url": "https://github.com/Dr-TSNG/ZygiskNext/releases/download/v1.5.3/Zygisk-Next-1.5.3-880-22a1bf5-release.zip",
+        "sha256": "186a0a26c9fcb895af1954b42de831433c23d72d1bd0758b986069154359db67",
+        "provenance": "Downloaded ZIP hash matches official GitHub release asset digest; rehosting excluded."
+      },
+      {
+        "name": "LSPosed",
+        "version": "2.2.1",
+        "versionCode": 7912,
+        "file": "LSPosed-v2.2.1-7912-release.zip",
+        "url": "https://lsposed.zip",
+        "metadata_url": "https://lsposed.zip/update.json",
+        "sha256": "ed37de2d2097aa6ba871377e7bf4ac719b708484f9468928e6abae10ab311e74",
+        "bytes": 6431714,
+        "provenance": "Provider download and metadata matched the original tested ZIP on 2026-11-28. URL is mutable; reject any different hash. No independent source authentication is asserted; no ZIP/license is rehosted."
+      }
+    ]
+  },
+  "validation": {
+    "pristine_filesystem": "PASS e2fsck -fn; new ext4, data/cache/metadata/dev/proc/run/sys/tmp empty, core hashes matched, xattrs restored",
+    "device_copy_raw_hash": "PASS before first boot, identical to pristine image",
+    "first_boot": "PASS boot_completed/modules_ready/terminal_ready/release.ready all 1; own address config, empty broker selection, proxy disabled",
+    "module_cold_boot": "PASS Next1.5.3(880) inject_state1, modules_with_issue0; LSPosed2.2.1(7912) API102 daemonRunning/systemServerRequested true, safeMode false, installedModules0",
+    "callbacks": "PASS genuine pre/post app and system_server callbacks; no third-party Xposed business hook asserted",
+    "negative_identity_and_fd": "PASS three rejected peer cases, genuine setcon denial preserved, actual SCM_RIGHTS transfer with child exit0",
+    "magisk_frontend": "PASS actual Modules page with enabled LSPosed and callback probe, install-from-storage present",
+    "ordinary_app": "PASS source-backed ordinary UID APK: private file I/O, SharedMemory, DNS, HTTPS200 with default TLS_AES_128_GCM_SHA256",
+    "terminal": "PASS actual Droidspaces interactive PTY on preceding release-initialization candidate, uid0 /dev/pts/0; final image terminal_ready1 with same terminal files",
+    "memory_limit": "PASS actual cgroupv1 limit2684354560 bytes on release candidate, failcnt0",
+    "video": {
+      "final-window.png": {
+        "mae": 0.8028589570473251,
+        "size": [
+          360,
+          640
+        ],
+        "std": [
+          44.13928286708103,
+          49.73102797609372,
+          1.1234567310604282
+        ]
+      },
+      "final-decoded.png": {
+        "mae": 1.3922837496784979,
+        "size": [
+          720,
+          1280
+        ],
+        "std": [
+          44.162716992708766,
+          49.779764090684445,
+          1.2229763772383424
+        ]
+      },
+      "stock_client": "5.0.1",
+      "codec_options": null,
+      "encoder_override": null,
+      "hardware_decode": "vaapi",
+      "pass": true
+    },
+    "display": "PASS 720x1280 DPI320 60Hz, no pending changes",
+    "native_build": "PASS NDKr29; existing unused-parameter warning retained",
+    "local_transport_tests": "PASS five proxy transport cases, four auth cases, sparse gzip creation/corruption/non-overwrite checks",
+    "restore_original": "PASS original rootfs/config restored and running; original Next injection and LSPosed system_server rechecked; script app enabled and closed",
+    "protection": {
+      "host_boot_id_unchanged": true,
+      "host_selinux_enforcing": true,
+      "arch2_untouched": true,
+      "redroid13repro_untouched": true,
+      "no_global_adb_reset": true,
+      "no_global_policy_bpf_firewall_changes": true,
+      "original_image_preserved": true,
+      "temporary_device_copies_removed": true
+    }
+  },
+  "not_verified": [
+    "full AOSP rebuild from empty source",
+    "exact source provenance of all historical compatibility binaries and unofficial Magisk input",
+    "other ROM/SoC/x86 compatibility",
+    "native ordinary UID direct networking without broker",
+    "all codec formats/resolutions",
+    "real external proxy account authentication in this clean-copy run",
+    "third-party Xposed business hook",
+    "game login/automation",
+    "one-hour endurance"
+  ],
+  "assets": [
+    {
+      "name": "AI_QUICKSTART.md",
+      "bytes": 2961,
+      "sha256": "472444bfd23bd2366eebcbffa5128cf74057e4e2e1c1ac16b5478c8df82754f4"
+    },
+    {
+      "name": "ARM13-API-Probe-20261128.apk",
+      "bytes": 16785,
+      "sha256": "5917a370aeeb093b59c167c4ce06a80e0fa9bef0946a6cb52b4edd88ada7d204"
+    },
+    {
+      "name": "Magisk-31.1-validated.apk",
+      "bytes": 10744628,
+      "sha256": "9d514204826bbe3765e6dbe1e958a9db97cb5c10a439b18125e63450ddf2cc3c"
+    },
+    {
+      "name": "THIRD-PARTY-NOTICES.txt",
+      "bytes": 5344,
+      "sha256": "b58cb74e4744dc0e87849e04f85dadef61ed17e801f2fd549b44171d73d4a7dd"
+    },
+    {
+      "name": "UID-Network-Manager-1.2.1.apk",
+      "bytes": 61915,
+      "sha256": "05ddad2763fac14566ef485a910ca6e6b50fb691804e2e4b341c84911b5ab23a"
+    },
+    {
+      "name": "image-manifest.json",
+      "bytes": 2149,
+      "sha256": "f109ad7ea49b042f888cf8ea4325da5070dc920bb4a287ae3d0574f92f8d58b4"
+    },
+    {
+      "name": "optional-inputs.json",
+      "bytes": 1273,
+      "sha256": "2e7cd3607c2fc265f1be09cc77cd9562ed3c4c651e992513c209864eec2d4c6c"
+    },
+    {
+      "name": "redroid13-arm64-sm8475-20261128.img.zst",
+      "bytes": 611986139,
+      "sha256": "1d34fd96ba3322df357d4bd31fbafbc3043ea0d53c23ffa49396f638177c2ff0"
+    },
+    {
+      "name": "redroid13-arm64-tools-20261128.tar.zst",
+      "bytes": 2115717,
+      "sha256": "524aed635f82c2743cf87c54481b8cdd811b179ab9117a5a539112a4bec06564"
+    },
+    {
+      "name": "rootfs-files.sha256",
+      "bytes": 341412,
+      "sha256": "d3841f30211d00d335c1fdcd9781b236f89fd29264b5f909530ae3d73722e630"
+    },
+    {
+      "name": "rootfs-metadata.json",
+      "bytes": 904317,
+      "sha256": "630388cb7aeb0d5c2fb638206235f0b36623413ee331ed53e4772c8d3f114e1d"
+    },
+    {
+      "name": "rootfs-xattrs.tsv",
+      "bytes": 487855,
+      "sha256": "10c60cae71b6524ff88180c7862ecd2ee486c8aa8a92d293dc172241298e0e27"
+    }
+  ]
+}

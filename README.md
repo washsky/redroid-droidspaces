@@ -2,7 +2,9 @@
 
 在 **骁龙 8+ Gen 1（SM8475）/ Adreno 730、Android API 35 真机**上，用 Droidspaces v7.2.0 运行 ARM64 ReDroid 13 的实验记录、源码补丁与复现材料。
 
-这不是通用刷机包，也不是已清空数据的可分发系统镜像。仓库记录了已经在真机跑通的组合，保留硬件、内核、厂商库和安全隔离方面的适用条件。
+仓库记录已经在真机跑通的组合，保留硬件、内核、厂商库和安全隔离方面的适用条件。现在提供当前机型的空数据完整镜像和预编译工具；这是 Droidspaces 容器文件系统，不是通用手机刷机包。
+
+**无需先编译：[下载 v2026.11.28-arm64](https://github.com/washsky/redroid-droidspaces/releases/tag/v2026.11.28-arm64) · [下载、校验与部署步骤](docs/PREBUILT_RELEASES.md)**。包含12 GiB逻辑大小的ARM64镜像（压缩约584 MiB）、工具、管理APK和逐文件清单。先核对mondrian/SM8475及ROM条件；第三方Next/LSPosed不预装。
 
 ## 第一部分：核心复现
 
@@ -78,10 +80,10 @@ Magisk 深入完整化、Zygisk/Xposed、原版 scrcpy 优化、统一代理和�
 
 - 第一部分基线曾使用 `privileged=full`；第二部分 arm 改为 `nocaps` + 自定义 init 删五项能力，仍无 root UID 映射、仍保留36项能力，并非最小权限或真正非特权 userns。宿主侧已有的容器 SELinux 兼容策略及 `persist.zygote.app_data_isolation=false` 仍是边界。宿主 `getenforce` 保持 Enforcing，**不能因此声称容器隔离与原生 Android 安全等价**。
 - 不要全局关闭 SELinux、解绑宿主 cgroup eBPF、清空防火墙，或暴露全部宿主设备。
-- 本仓库不包含厂商 GPU/Codec blobs、WebView APK、Magisk APK、密钥、账号数据或完整 rootfs。需要从自己的合法环境取得并核对版本。
+- Git源码树保存补丁与记录；[Release](docs/PREBUILT_RELEASES.md)另外提供包含当前ROM厂商库、WebView和历史Magisk输入的完整空数据镜像，以及独立工具/APK。它不含账号、ADB密钥、签名私钥、模块license或Magisk授权数据库。分发来源和历史二进制缺口见[THIRD_PARTY.md](THIRD_PARTY.md)。
 - QTI Gralloc 二进制修补只接受一个精确 SHA256，输出到新文件；不是可套用到其他手机的通用偏移补丁。
 - 旧交接中的“骁龙 7+ Gen 2”“仍全程 SwiftShader”“DHCP 源码补丁未部署”等结论已经过时；本仓库以实际文件和分阶段验收为准。
 
-整理更新：2026-11-25（Asia/Shanghai）。第一部分核心验收主要完成于 2026-11-21 至 11-24；第二部分增量验收完成于 11-24/25。
+整理更新：2026-11-28（Asia/Shanghai）。第一部分核心验收主要完成于11-21至11-24；第二部分增量验收于11-24/25；11-28新增空数据镜像的实际部署、模块冷启动及下载发布验收。
 
 <img src="evidence/image.png" alt="redroid运行补充" width="">

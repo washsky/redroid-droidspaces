@@ -1,0 +1,41 @@
+#!/system/bin/sh
+# First boot of the published image only. Runs inside the container; no host
+# policy, root authorization, module license or old instance state is copied.
+set -eu
+[ "$(id -u)" = 0 ] || exit 2
+[ "$(getprop ro.product.device)" = redroid_arm64_only ] || exit 2
+[ -f /system/etc/arm13-release.json ] && [ -f /init.arm13-caps ] || exit 2
+[ "$(readlink /proc/self/ns/net)" = "$(readlink /proc/1/ns/net)" ] || exit 2
+/vendor/bin/arm13-terminal-setup
+mkdir -p /data/adb /data/misc/redroid-netbroker
+chmod 0700 /data/adb
+chmod 0755 /data/misc/redroid-netbroker
+if [ ! -e /data/adb/arm13-instance.conf ]; then
+    set -f
+    set -- $(/system/bin/ip -o -4 addr show dev eth0)
+    [ "$#" -ge 4 ] || exit 3
+    address=${4%/*}
+    # Android may retain the generic UTS name "localhost". This is a readable
+    # instance label, not a claimed Droidspaces UUID or authentication token.
+    label="redroid13-${address//./-}"
+    file=$(mktemp /data/adb/.arm13-instance.XXXXXX)
+    trap 'rm -f "$file"' EXIT
+    printf 'R13INSTANCE1\n%s\n%s\n' "$label" "$address" > "$file"
+    chown 0:0 "$file"
+    chmod 0600 "$file"
+    mv "$file" /data/adb/arm13-instance.conf
+    trap - EXIT
+fi
+# The native guard validates name, address, ownership and namespaces. A stale
+# or unsafe existing config is retained and reported rather than overwritten.
+/vendor/bin/arm13-bootctl status >/dev/null
+if [ ! -e /data/misc/redroid-netbroker/packages ]; then
+    printf 'R13NET1\n1\n1\n' > /data/misc/redroid-netbroker/packages
+    chown 0:0 /data/misc/redroid-netbroker/packages
+    chmod 0644 /data/misc/redroid-netbroker/packages
+fi
+/vendor/bin/arm13-netctl boot
+# The virtual Bluetooth HAL is outside the supported container feature set.
+/system/bin/settings put global bluetooth_on 0
+/system/bin/svc bluetooth disable || true
+setprop sys.arm13.release.ready 1

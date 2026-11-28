@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="lab.arm13.probe" android:versionCode="20261128" android:versionName="2026.11.28">
+  <uses-sdk android:minSdkVersion="33" android:targetSdkVersion="33" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <application android:label="ARM13 API / HTTPS Probe" android:allowBackup="false" android:usesCleartextTraffic="false">
+    <activity android:name=".Probe" android:exported="true">
+      <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+    </activity>
+  </application>
+</manifest>

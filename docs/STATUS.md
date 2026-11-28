@@ -1,5 +1,13 @@
 # 状态与验收矩阵
 
+## 2026-11-28：空数据 Release 验收
+
+[下载与部署](PREBUILT_RELEASES.md) · [结构化验收与来源](../artifacts/release-20261128.json)。12 GiB全新ext4、空数据、完整静态系统及xattr；压缩约584 MiB。字节一致的副本通过首次启动、模块安装后目标冷启动、Next注入与真实app/system_server回调、LSPosed API102接入、普通应用存储/SharedMemory/DNS/默认TLS HTTPS200。Magisk模块前端正常；PTY在发布初始化候选上实际交互验证。
+
+stock scrcpy5.0.1没有指定encoder或codec-options，自动QTI H.264硬编、Debian VAAPI硬解；720×1280解码帧MAE1.392，真实360×640窗口MAE0.803。2.5GiB容器内存限制实际生效。代理默认关闭，普通应用仍依赖UID broker；未重新验收真实外部代理账号、Xposed业务hook、其它ROM/x86、全源码构建或一小时耐久。
+
+本次只切换获准arm的独立副本，结束已恢复原arm配置/镜像运行；宿主bootID连续、Enforcing，arch2/repro保持原状态。待下载镜像从未启动，不含验收副本的授权、模块或应用数据。
+
 ## 2026-11-25：第二部分当前状态
 
 第一部分仍是本项目核心；[第二部分](PART2_SUPPLEMENT.md)是成功基线上的可选补充。当前实例按以下范围解释，下文早期阶段记录不改写。

@@ -24,4 +24,6 @@ flags=(-O2 -Wall -Wextra)
 "$cc" "${flags[@]}" "$r/src/gralloc/isolated-probe.c" -o "$o/arm13-isolated-gralloc-probe"
 "$cc" "${flags[@]}" "$r/src/probes/read-gralloc-mutex.c" -o "$o/arm13-gralloc-lock-read"
 "$cc" "${flags[@]}" "$r/src/probes/binderfs-add.c" -o "$o/arm13-binderfs-add"
+"$cc" "${flags[@]}" -Werror -static "$r/src/release/export-xattrs.c" -o "$o/arm13-export-static-xattrs"
+"$cc" "${flags[@]}" -Werror "$r/src/release/gzip-to-sparse.c" -lz -o "$o/arm13-gzip-to-sparse"
 echo "Built into $o; nothing installed on a device."

@@ -20,10 +20,16 @@ def sha(path):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--tag', default='v2026.11.28-arm64')
-    p.add_argument('--directory', type=Path, default=Path('out/prebuilt-20261128'))
+    p.add_argument('--profile', choices=['base', 'sm8475'], default='sm8475',
+                   help='base: original ARM64 inputs; sm8475: validated hardware integration')
+    p.add_argument('--tag', help='override the fixed tag selected by --profile')
+    p.add_argument('--directory', type=Path)
+    p.add_argument('--image', choices=['original', 'optin', 'all'], default='original',
+                   help='base profile image selection; original is the software-first starting input')
     p.add_argument('--tools-only', action='store_true', help='skip the compressed rootfs image')
     a = p.parse_args()
+    a.tag = a.tag or ('v2026.11.28-arm64-base' if a.profile == 'base' else 'v2026.11.28-arm64')
+    a.directory = a.directory or Path('out/prebuilt-base-20261128' if a.profile == 'base' else 'out/prebuilt-20261128')
     if not re.fullmatch(r'[A-Za-z0-9._-]+', a.tag):
         p.error('invalid tag')
     base = 'https://github.com/washsky/redroid-droidspaces/releases/download/' + a.tag + '/'
@@ -45,6 +51,10 @@ def main():
     for name, digest in entries.items():
         if a.tools_only and name.endswith('.img.zst'):
             continue
+        if a.profile == 'base' and name.endswith('.img.zst') and a.image != 'all':
+            selected = 'source-original' if a.image == 'original' else 'property-optin-original'
+            if selected not in name:
+                continue
         target = a.directory / name
         if target.is_symlink():
             raise ValueError('refusing symlink output: ' + name)

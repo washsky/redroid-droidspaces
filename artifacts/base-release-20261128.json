@@ -1,0 +1,252 @@
+{
+  "schema": 1,
+  "release_ref": "v2026.11.28-arm64-base",
+  "date": "2026-11-28",
+  "timezone": "Asia/Shanghai",
+  "purpose": "Original ARM64 PVE-reference-patched build inputs and software-first cross-device porting; current SM8475 integration remains a separate example.",
+  "architecture": "AArch64 / arm64-only / API33",
+  "build_origin": "Ubuntu20 retained Android13.0.0_r82 redroid_arm64_only-userdebug outputs; source packing scripts observed; reference redroid-pve v0.0.4, not an official upstream ARM template.",
+  "images": [
+    {
+      "asset": "redroid13-arm64-pve-source-original-20261119.img.zst",
+      "original_basename": "rootfs13-arm64-source-ext4.img",
+      "image_size_bytes": 6442450944,
+      "image_sha256": "d5b6961e65832aee875c15766c8ffac6ba275f3f217390853b841977785b326e",
+      "userdata_empty_before_and_after_journal": true,
+      "original_bytes_preserved": true,
+      "inspection_prefix": "source-original",
+      "property_optin_bionic_transition_required": true
+    },
+    {
+      "asset": "redroid13-arm64-pve-property-optin-original-20261119.img.zst",
+      "original_basename": "rootfs13-arm64-source-property-optin-ext4.img",
+      "image_size_bytes": 6442450944,
+      "image_sha256": "ab65cb2dbc97e56829dcdce0f05a5af31a2152977194797405a6ac3a98edcc6f",
+      "userdata_empty": false,
+      "original_bytes_preserved": true,
+      "inspection_prefix": "property-optin-original",
+      "early_simulator_state": "11 regular initial files before replay, 12 after; no business application data/account databases/ADB private key/Magisk authorization found. Do not transplant initial data into a new device."
+    }
+  ],
+  "journal_review": {
+    "originals_retained_pending_journal": true,
+    "readonly_fsck_exit_0_is_not_clean_proof": true,
+    "readonly_reports_include_free_count_warnings": true,
+    "disposable_copies_only_replayed": true,
+    "replay_fsck_exit": [
+      1,
+      1
+    ],
+    "after_replay_fsck_exit": [
+      0,
+      0
+    ],
+    "after_replay_sensitive_findings": [],
+    "source_userdata_empty_after_replay": true
+  },
+  "portable_core": {
+    "schema": 1,
+    "architecture": "AArch64",
+    "android_api": 33,
+    "origin": "Two Ubuntu20 AOSP output fixes plus seven historical opt-in Bionic/dependent files; all hashes match the existing validated integration",
+    "standalone_base_combination_boot_tested": false,
+    "arbitrary_processors_verified": false,
+    "device_private_libraries_included": false,
+    "automatic_install": false,
+    "files": [
+      {
+        "path": "/system/lib64/libandroid_runtime.so",
+        "sha256": "41ebfbeb2634b53fc40482d237452538bdfd662f503c965a5e20b94265895b15",
+        "known_original_sha256": "8c1a525238306509bdb33f7cb5d2960da0cfad03d1b731c1b045a01752a24b99",
+        "owner": "0:0",
+        "mode": "0o644",
+        "source_patch": "patches/aosp/frameworks__base.patch",
+        "source_patch_sha256": "50e6e0a7eb2f30816842bcccc56b790e7da53b44efea8710f15b02ae02ce2556",
+        "preserve_existing_xattrs": true,
+        "origin": "Ubuntu20 current AOSP output; also matches validated integration",
+        "source_note": "Recorded source patch reference."
+      },
+      {
+        "path": "/vendor/bin/ipconfigstore",
+        "sha256": "6cc88412039ab4ebc0ddb66411d49eaa38cdaea81aac1378c0b86ce9c9ec3108",
+        "known_original_sha256": "762338667e513ae7b09708ff7f9cda68162370ba7f47580a3ca0726c777ceb66",
+        "owner": "0:0",
+        "mode": "0o755",
+        "source_patch": "patches/aosp/vendor__redroid.patch",
+        "source_patch_sha256": "c3e24c357a163ff6a3e28a3d393aabbd8395a0e431bd0a97fcd29f60adcbcc93",
+        "preserve_existing_xattrs": true,
+        "origin": "Ubuntu20 current AOSP output; also matches validated integration",
+        "source_note": "Recorded source patch reference."
+      },
+      {
+        "path": "/system/apex/com.android.runtime/bin/linker64",
+        "sha256": "c948b3d0b8dd152adbdabd515b69f15c622a16ff2b1d59766386777de98d1031",
+        "known_original_sha256": "d329f60ff9aa2558c5e4ef8381b1b1a33287d6f0e57159c4cb32a002ebfd2101",
+        "owner": "0:0",
+        "mode": "0o755",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      },
+      {
+        "path": "/system/apex/com.android.runtime/bin/linkerconfig",
+        "sha256": "4a896447054431add8d31839a89125d5e115d00b15989b529761f1a51321fa64",
+        "known_original_sha256": "5598fa2fe475a999b6b2f844f66beb84f0ad64783a0d4822eb170c14e461054c",
+        "owner": "0:0",
+        "mode": "0o755",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      },
+      {
+        "path": "/system/apex/com.android.runtime/lib64/bionic/libc.so",
+        "sha256": "115175233eb452be1b420c976b5b6a6f69901e576ab4f8a4fd067ab3d02eab63",
+        "known_original_sha256": "df30f385690e8ab6d2f9b14672383b342295d3cbf61e6fb9a7c76449a1ebd977",
+        "owner": "0:0",
+        "mode": "0o644",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      },
+      {
+        "path": "/system/bin/bootstrap/linker64",
+        "sha256": "814dcdcad569d9b7e40a65be8bda30e79a3a5d9af8af3641bf2b337a58010f21",
+        "known_original_sha256": "a9f8dc6bee40b32629a33b22369da95ee92b91385d859770ec0d8cb060419e73",
+        "owner": "0:0",
+        "mode": "0o755",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      },
+      {
+        "path": "/system/bin/bootstrap/linkerconfig",
+        "sha256": "81c2d0ce9675063b755298ed11b57cd58dc897a94c644dda07deeca447cf8dd1",
+        "known_original_sha256": "879ff4c8dc5b63d523fb447c9ddb02410c3247ef43933666a9c62ab8ead7f025",
+        "owner": "0:0",
+        "mode": "0o755",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      },
+      {
+        "path": "/system/bin/snapuserd",
+        "sha256": "4b01432e4c6005cae75cc3b981be415b1c098488ad43ab748b93f0a4b1fc8f62",
+        "known_original_sha256": "b6c51dbfc4fe314669055df770d377a26d855e06f166a7b533761eb58739c74a",
+        "owner": "0:0",
+        "mode": "0o755",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      },
+      {
+        "path": "/system/lib64/bootstrap/libc.so",
+        "sha256": "115175233eb452be1b420c976b5b6a6f69901e576ab4f8a4fd067ab3d02eab63",
+        "known_original_sha256": "df30f385690e8ab6d2f9b14672383b342295d3cbf61e6fb9a7c76449a1ebd977",
+        "owner": "0:0",
+        "mode": "0o644",
+        "source_patch": "patches/aosp/bionic.patch",
+        "source_patch_sha256": "1d5b9613b3f0c92b7ed236b0444f67cd6a1d22725bde0e7e43dd678c228ff827",
+        "preserve_existing_xattrs": true,
+        "origin": "historical opt-in image; also matches validated integration",
+        "source_note": "Bionic compatibility transition and dependent relinks; patch is a reference to the recorded source changes, not proof of an exact historical full-tree build."
+      }
+    ]
+  },
+  "bionic_transition": [
+    {
+      "path": "system/apex/com.android.runtime/bin/linker64",
+      "old": "d329f60ff9aa2558c5e4ef8381b1b1a33287d6f0e57159c4cb32a002ebfd2101",
+      "new": "c948b3d0b8dd152adbdabd515b69f15c622a16ff2b1d59766386777de98d1031",
+      "matches_current_integration": true
+    },
+    {
+      "path": "system/apex/com.android.runtime/bin/linkerconfig",
+      "old": "5598fa2fe475a999b6b2f844f66beb84f0ad64783a0d4822eb170c14e461054c",
+      "new": "4a896447054431add8d31839a89125d5e115d00b15989b529761f1a51321fa64",
+      "matches_current_integration": true
+    },
+    {
+      "path": "system/apex/com.android.runtime/lib64/bionic/libc.so",
+      "old": "df30f385690e8ab6d2f9b14672383b342295d3cbf61e6fb9a7c76449a1ebd977",
+      "new": "115175233eb452be1b420c976b5b6a6f69901e576ab4f8a4fd067ab3d02eab63",
+      "matches_current_integration": true
+    },
+    {
+      "path": "system/bin/bootstrap/linker64",
+      "old": "a9f8dc6bee40b32629a33b22369da95ee92b91385d859770ec0d8cb060419e73",
+      "new": "814dcdcad569d9b7e40a65be8bda30e79a3a5d9af8af3641bf2b337a58010f21",
+      "matches_current_integration": true
+    },
+    {
+      "path": "system/bin/bootstrap/linkerconfig",
+      "old": "879ff4c8dc5b63d523fb447c9ddb02410c3247ef43933666a9c62ab8ead7f025",
+      "new": "81c2d0ce9675063b755298ed11b57cd58dc897a94c644dda07deeca447cf8dd1",
+      "matches_current_integration": true
+    },
+    {
+      "path": "system/bin/snapuserd",
+      "old": "b6c51dbfc4fe314669055df770d377a26d855e06f166a7b533761eb58739c74a",
+      "new": "4b01432e4c6005cae75cc3b981be415b1c098488ad43ab748b93f0a4b1fc8f62",
+      "matches_current_integration": true
+    },
+    {
+      "path": "system/lib64/bootstrap/libc.so",
+      "old": "df30f385690e8ab6d2f9b14672383b342295d3cbf61e6fb9a7c76449a1ebd977",
+      "new": "115175233eb452be1b420c976b5b6a6f69901e576ab4f8a4fd067ab3d02eab63",
+      "matches_current_integration": true
+    }
+  ],
+  "offline_assembly_validation": {
+    "files": [
+      "/system/lib64/libandroid_runtime.so",
+      "/vendor/bin/ipconfigstore",
+      "/system/apex/com.android.runtime/bin/linker64",
+      "/system/apex/com.android.runtime/bin/linkerconfig",
+      "/system/apex/com.android.runtime/lib64/bionic/libc.so",
+      "/system/bin/bootstrap/linker64",
+      "/system/bin/bootstrap/linkerconfig",
+      "/system/bin/snapuserd",
+      "/system/lib64/bootstrap/libc.so"
+    ],
+    "all_original_inputs_matched": true,
+    "all_new_file_hashes_matched": true,
+    "original_xattrs_preserved": true,
+    "property_optin_marker_added": true,
+    "dhcp_init_semantics_added": true,
+    "software_codec_setting_preserved": true,
+    "userdata_empty": true,
+    "fsck_exit": 0,
+    "runtime_boot_tested": false,
+    "phone_touched": false
+  },
+  "source_provenance_limits": [
+    "Historical rootfs packing included local wrappers and emulator helpers; exact full build-tree provenance is not complete.",
+    "Current pinned manifest/patches include later fixes; do not claim byte-for-byte reconstruction of every original component.",
+    "Bionic patch references and dependent relinks do not independently reconstruct every historical build step."
+  ],
+  "not_tested_in_this_publication": [
+    "boot of the newly assembled source+compatibility files on a phone",
+    "arbitrary processor/ROM support",
+    "GPU/hardware Codec porting for another device",
+    "Magisk/Next/LSPosed installation on this base",
+    "native ordinary UID network repair"
+  ],
+  "protection": {
+    "phone_and_all_containers_untouched": true,
+    "remote_original_images_not_modified": true,
+    "gateway_directory_not_used_for_project_outputs": true,
+    "formal_handoff_not_modified": true
+  }
+}

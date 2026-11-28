@@ -1,10 +1,17 @@
 # ARM64 ReDroid 13 on Droidspaces
 
-在 **骁龙 8+ Gen 1（SM8475）/ Adreno 730、Android API 35 真机**上，用 Droidspaces v7.2.0 运行 ARM64 ReDroid 13 的实验记录、源码补丁与复现材料。
+用 Droidspaces 运行 ARM64 ReDroid 13 的源码补丁、基础镜像和分阶段复现材料。其它ARM64处理器/ROM可从软件基线逐步适配；当前完整硬件验收实例为**骁龙8+ Gen1（SM8475）/ Adreno730、Android API35真机**。
 
 仓库记录已经在真机跑通的组合，保留硬件、内核、厂商库和安全隔离方面的适用条件。现在提供当前机型的空数据完整镜像和预编译工具；这是 Droidspaces 容器文件系统，不是通用手机刷机包。
 
-**无需先编译：[下载 v2026.11.28-arm64](https://github.com/washsky/redroid-droidspaces/releases/tag/v2026.11.28-arm64) · [下载、校验与部署步骤](docs/PREBUILT_RELEASES.md)**。包含12 GiB逻辑大小的ARM64镜像（压缩约584 MiB）、工具、管理APK和逐文件清单。先核对mondrian/SM8475及ROM条件；第三方Next/LSPosed不预装。
+**新设备先读：[独立跨设备复现路线](docs/porting/README.md)**。按“软件启动与普通应用 → 网络/软件画面 → 冷启动基线 → GPU/Gralloc → 硬件Codec”的顺序推进，再考虑第二部分补充。此路线与正式维护交接分别组织。
+
+| 预编译入口 | 使用范围 |
+|---|---|
+| [ARM64基础原件 v2026.11.28-arm64-base](https://github.com/washsky/redroid-droidspaces/releases/tag/v2026.11.28-arm64-base) | Ubuntu20的PVE参考补丁源码镜像和opt-in历史镜像，均6GiB；通用核心修复、工具和探针；[先验收软件](docs/porting/SOFTWARE_FIRST.md) |
+| [SM8475集成实例 v2026.11.28-arm64](https://github.com/washsky/redroid-droidspaces/releases/tag/v2026.11.28-arm64) | 当前ROM厂商库、12GiB空数据、GPU/Codec与可选补充已集成；[本组合部署指南](docs/PREBUILT_RELEASES.md) |
+
+下载基础原件：`python3 scripts/download-prebuilt.py --profile base`。默认选source-original一个镜像，历史opt-in可用`--image optin`。原件状态、journal和已知旧实现见[来源说明](docs/porting/BASE_IMAGE_PROVENANCE.md)；ARM64基础不等于全部硬件已验收。
 
 ## 第一部分：核心复现
 

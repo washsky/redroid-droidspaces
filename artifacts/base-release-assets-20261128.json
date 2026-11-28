@@ -1,0 +1,90 @@
+{
+  "release_ref": "v2026.11.28-arm64-base",
+  "assets": [
+    {
+      "name": "ARM13-API-Probe-20261128.apk",
+      "bytes": 16785,
+      "sha256": "5917a370aeeb093b59c167c4ce06a80e0fa9bef0946a6cb52b4edd88ada7d204"
+    },
+    {
+      "name": "BASE_README.md",
+      "bytes": 3097,
+      "sha256": "5612bef768873d49dde6b6d0ff445815f5f7de88ddced05c5df3a203c4eb8da2"
+    },
+    {
+      "name": "Droidspaces-COPYING.txt",
+      "bytes": 35150,
+      "sha256": "e57f1c320b8cf8798a7d2ff83a6f9e06a33a03585f6e065fea97f1d86db84052"
+    },
+    {
+      "name": "THIRD-PARTY-NOTICES.txt",
+      "bytes": 6067,
+      "sha256": "c688ad1acf202d4535f041e9b6e9627fe24b324a62bd50dd08868fdd46f3b9af"
+    },
+    {
+      "name": "base-images.json",
+      "bytes": 12907,
+      "sha256": "a4dcfc3799b8fb21f5b502f60694408ccfdf3be11c2fbaa84c79aec08de4e4e3"
+    },
+    {
+      "name": "property-optin-original-files.sha256",
+      "bytes": 333047,
+      "sha256": "b885f156f0057f0a59ccedfffdd0484da63889b14298f2644ffae59420c6dc55"
+    },
+    {
+      "name": "property-optin-original-inspection.json",
+      "bytes": 10009,
+      "sha256": "80a605fd9ca99f15ce825483d92c40ecc7438174af25586d98df9f33989beccf"
+    },
+    {
+      "name": "property-optin-original-metadata.json",
+      "bytes": 944341,
+      "sha256": "44d5df645130053fd76db488fa0caf9b81fd53ec16e274edc04226f261593ce7"
+    },
+    {
+      "name": "property-optin-original-xattrs.tsv",
+      "bytes": 506207,
+      "sha256": "c1702cbca005a69ebd9d00ec4f205cad8c923204e1707da1d810bcb92c45e942"
+    },
+    {
+      "name": "redroid13-arm64-portable-core-fixes-20261128.tar.zst",
+      "bytes": 2913411,
+      "sha256": "b29cf81ae8eeb87fe2a8051a172ec43b0d1393d59912f80f12ac2aff084a9298"
+    },
+    {
+      "name": "redroid13-arm64-pve-property-optin-original-20261119.img.zst",
+      "bytes": 574249664,
+      "sha256": "4b40e33cae9b950d1aab8350c6609b91b01729c3e176f0f2fce5675c791f3e8b"
+    },
+    {
+      "name": "redroid13-arm64-pve-source-original-20261119.img.zst",
+      "bytes": 578947384,
+      "sha256": "cedb2f122e8423927644ecb6595bf81a3b4345d1d36f72f5c9c8cb4684098373"
+    },
+    {
+      "name": "redroid13-arm64-tools-20261128.tar.zst",
+      "bytes": 2115717,
+      "sha256": "524aed635f82c2743cf87c54481b8cdd811b179ab9117a5a539112a4bec06564"
+    },
+    {
+      "name": "source-original-files.sha256",
+      "bytes": 331879,
+      "sha256": "9266b2fb14aaeaac4e3b37ea9b45d7dfdd3ca2af33a575f173feca58383804a0"
+    },
+    {
+      "name": "source-original-inspection.json",
+      "bytes": 8218,
+      "sha256": "66921dae792fd91eab1aff27d8123221296bdf2f8e4a775c20bb615d02e056cb"
+    },
+    {
+      "name": "source-original-metadata.json",
+      "bytes": 907627,
+      "sha256": "099f0833777cdc6138b46437f0643250070666acc1f4c0ed25e0387257ecd826"
+    },
+    {
+      "name": "source-original-xattrs.tsv",
+      "bytes": 478336,
+      "sha256": "a592bf174143d03ecd71fc71163ed302ca71158b63adecff09fbde9266480d7c"
+    }
+  ]
+}

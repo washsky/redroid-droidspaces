@@ -27,6 +27,8 @@
 
 ## Release 分发与来源边界
 
+[ARM64基础Release](docs/porting/BASE_IMAGE_PROVENANCE.md)另行提供Ubuntu20保留的PVE参考补丁源码根文件系统与property opt-in原件；它们没有本机QTI私有集成，没有预装后续Magisk/Next/LSPosed。原始打包包含Droidspaces7.2.0辅助ELF，来源参考[对应上游源码](https://github.com/ravindu644/Droidspaces-OSS/tree/v7.2.0)，GPL文本见[LICENSES/Droidspaces-COPYING](LICENSES/Droidspaces-COPYING)。保留原字节不等于推荐执行镜像内历史模拟器辅助脚本。
+
 2026-11-28起，[设备专用Release](docs/PREBUILT_RELEASES.md)提供当前mondrian/SM8475、OS3.0.5.0.VMNCNXM组合的完整静态系统，包括实际使用的QTI GPU/Codec/HIDL库、Mesa、WebView和Bootless Magisk输入；发布者已确认允许公开这些现有厂商文件。该确认不改变第三方版权或向其他ROM提供兼容保证。逐文件哈希、权限和xattr随附件提供；从自己的固件提取时仍应重新核对ABI和符号。
 
 Magisk历史管理APK的SHA256为`9d514204826bbe3765e6dbe1e958a9db97cb5c10a439b18125e63450ddf2cc3c`，签名证书SHA256为`a0d3671e5983bd47a78cb3fb4309527ff40ca56bf22e40288cab42e5bca69b04`；其arm64 native输入与镜像一致。当前上游v31.1下载的文件SHA256为`89cefac0a318afa39fb3880c45c87b036c05bc1ebf02a7a715b7f8d7c26ac6e7`，签名证书也不同，不能宣称字节等同或来自上游正式签名。上游参考源码为[0972f67d](https://github.com/topjohnwu/Magisk/tree/0972f67d97f9b6302b67c5171283330c74114b4a)，GPL文本保存在[LICENSES/Magisk-COPYING](LICENSES/Magisk-COPYING)；尚未建立历史输入与精确对应源码的完整关系。此限制同样记录于Release清单。
@@ -37,4 +39,4 @@ Next/LSPosed ZIP不重新托管；Release的`optional-inputs.json`提供实际�
 
 ## 刻意不上传
 
-原容器应用数据、账号、ADB密钥、Magisk授权数据库、模块license、签名私钥、SSH配置、SDK/NDK压缩包和未脱敏全量日志。发布镜像是新建文件系统，数据目录为空，不能把运行过的验收副本上传替代它。
+原容器业务应用数据、账号、ADB密钥、Magisk授权数据库、模块license、签名私钥、SSH配置、SDK/NDK压缩包和未脱敏全量日志。SM8475集成分发镜像是新建文件系统，数据目录为空，不能把运行过的验收副本上传替代它。另行发布的历史基础原件保留其原始状态；opt-in原件含少量模拟器初始化文件，具体清单和边界见基础镜像说明，不能宣称它也完全空数据。

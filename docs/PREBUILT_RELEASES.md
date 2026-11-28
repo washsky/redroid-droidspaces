@@ -1,4 +1,6 @@
-# 下载已编译镜像与工具
+# SM8475 集成镜像下载与部署
+
+本页对应已验收的SM8475/当前ROM完整集成。其它ARM64处理器或先重放软件阶段，请从[独立跨设备路线](porting/README.md)和[ARM64原始基础镜像](porting/BASE_IMAGE_PROVENANCE.md)开始；当前机型条件只约束这个集成镜像，不限定整个项目的适配方向。
 
 版本：[v2026.11.28-arm64](https://github.com/washsky/redroid-droidspaces/releases/tag/v2026.11.28-arm64)。这是本机经过 redroid-pve 参考补丁编译、再集成本仓库修复的 **ARM64 ReDroid13 完整文件系统快照**。核心仍是 Droidspaces 运行 ReDroid；Next/LSPosed 属于可选的第二部分。
 

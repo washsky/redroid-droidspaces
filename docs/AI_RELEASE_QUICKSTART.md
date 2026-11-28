@@ -1,4 +1,8 @@
-# 给下一位 AI：优先复用已发布产物
+# 给下一位 AI：先选择复现路线
+
+新处理器/ROM或从软件开始的复现，优先读[跨设备入口](porting/README.md)、[软件优先步骤](porting/SOFTWARE_FIRST.md)和[原件来源](porting/BASE_IMAGE_PROVENANCE.md)：`python3 scripts/download-prebuilt.py --profile base`。先验收软件系统与普通应用，再适配GPU/Gralloc/Codec；移植教程与正式`HANDOFF.md`分别维护，不把新设备计划写成已有实例验收。
+
+下面保留SM8475完整集成版本的快速入口。它是硬件实例，不是其它处理器的前置条件。
 
 固定版本：[v2026.11.28-arm64](https://github.com/washsky/redroid-droidspaces/releases/tag/v2026.11.28-arm64)。先检出这个tag，读取README、docs/PREBUILT_RELEASES.md、docs/REPRODUCIBILITY_GAPS.md和artifacts/release-20261128.json。
 
